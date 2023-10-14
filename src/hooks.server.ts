@@ -3,7 +3,7 @@ import type { Handle } from "@sveltejs/kit";
 import { sequence } from "@sveltejs/kit/hooks";
 
 export const handleCaller: Handle = async ({ event, resolve }) => {
-    if (event.url.pathname.startsWith("/api/twilio")) {
+    if (event.url.pathname.startsWith("/twilio")) {
         const callId = event.url.searchParams.get("CallSid");
 
         if (callId) {

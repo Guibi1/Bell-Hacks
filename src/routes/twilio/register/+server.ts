@@ -33,7 +33,7 @@ export async function GET({ locals, url, setHeaders, fetch }) {
     response.pause({ length: 1 });
 
     response.say("Hi, what do you want to do today?");
-    response.redirect({ method: "GET" }, "/api/twilio/ask");
+    response.redirect({ method: "GET" }, "/twilio/ask");
 
     setHeaders({ "Content-Type": "text/xml" });
     return text(response.toString());

@@ -19,7 +19,7 @@ export async function GET({ locals, url, setHeaders, fetch }) {
         setCallUserId(locals.callId, user.id);
         setPrivateKey(locals.callId, words);
         response.say("Hi, what do you want to do today?");
-        response.redirect({ method: "GET" }, "/api/twilio/ask");
+        response.redirect({ method: "GET" }, "/twilio/ask");
 
         setHeaders({ "Content-Type": "text/xml" });
         return text(response.toString());
@@ -27,7 +27,7 @@ export async function GET({ locals, url, setHeaders, fetch }) {
 
     const gather = response.gather({
         input: ["speech"],
-        action: "/api/twilio/login",
+        action: "/twilio/login",
         method: "GET",
     });
     gather.say("Incorrect passphrase. Please tell us your 4 words sercret passkey.");

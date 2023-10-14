@@ -28,7 +28,7 @@ export async function GET({ locals, url, setHeaders, fetch }) {
     setConversation(locals.callId, answer.messages);
 
     if (!answer.end) {
-        response.redirect({ method: "GET" }, "/api/twilio/ask");
+        response.redirect({ method: "GET" }, "/twilio/ask");
     }
 
     setHeaders({ "Content-Type": "text/xml" });
