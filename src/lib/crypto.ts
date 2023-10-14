@@ -6,7 +6,7 @@ export async function decrypt(
     publicKey: string,
     data: string
 ) {
-    const result = await f("/api/crypto/decrypt", {
+    const result = await f("/api/crypto/decrypt/index", {
         method: "POST",
         body: JSON.stringify({ data, secretKey: privateKey, publicKey: JSON.parse(publicKey) }),
     }).then((res) => res.text());
@@ -15,7 +15,7 @@ export async function decrypt(
 }
 
 export async function encrypt(f: typeof fetch, publicKey: string, data: string) {
-    const result = await f("/api/crypto/encrypt", {
+    const result = await f("/api/crypto/encrypt/index", {
         method: "POST",
         body: JSON.stringify({ data, publicKey: JSON.parse(publicKey) }),
     }).then((res) => res.text());
@@ -26,7 +26,7 @@ export async function encrypt(f: typeof fetch, publicKey: string, data: string) 
 export async function generateKeyPairs(f: typeof fetch) {
     const privateKey = generatePrivateKey();
 
-    const { publicKey }: { publicKey: string } = await f("/api/crypto/generate", {
+    const { publicKey }: { publicKey: string } = await f("/api/crypto/generate/index", {
         method: "POST",
         body: JSON.stringify({ secretKey: privateKey }),
     }).then((res) => res.json());
@@ -37,7 +37,7 @@ export async function generateKeyPairs(f: typeof fetch) {
 export async function verifyPrivateKey(f: typeof fetch, privateKey: string[], publicKey: string) {
     if (privateKey.length !== 4) return false;
 
-    const { success } = await f("/api/crypto/verify", {
+    const { success } = await f("/api/crypto/verify/index", {
         method: "POST",
         body: JSON.stringify({ secretKey: privateKey, publicKey: JSON.parse(publicKey) }),
     }).then((res) => res.json());
