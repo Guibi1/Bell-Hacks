@@ -29,6 +29,7 @@ async function chatCompletion(user: App.User, messages: Conversation, end = fals
             model: "gpt-4",
             messages,
             functions,
+            max_tokens: 100,
         });
 
         const responseMessage = response.choices[0].message;
@@ -44,18 +45,16 @@ async function chatCompletion(user: App.User, messages: Conversation, end = fals
                 getPassword(user, website);
             },
             addPassword: async ({ website }: { website: string }) => {
-                const password = generatePassword()
+                const password = generatePassword();
                 if (await addPassword(user, website, password)) {
-                    return password
-                }
-                else return null
+                    return password;
+                } else return null;
             },
             modifyPassword: async ({ website }: { website: string }) => {
-                const password = generatePassword()
+                const password = generatePassword();
                 if (await modifyPassword(user, website, password)) {
-                    return password
-                }
-                else return null
+                    return password;
+                } else return null;
             },
             removePassword: async ({ website }: { website: string }) => {
                 removePassword(user, website);

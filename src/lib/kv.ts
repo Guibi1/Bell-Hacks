@@ -24,7 +24,7 @@ export async function getConversation(callId: string): Promise<Conversation | nu
 
 export async function setConversation(callId: string, messages: Conversation) {
     try {
-        kv.set("convo" + callId, messages);
+        kv.set("convo" + callId, JSON.stringify(messages));
         return true;
     } catch {
         return false;
