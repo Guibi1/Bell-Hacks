@@ -16,7 +16,7 @@ export async function GET({ locals, url, setHeaders, fetch }) {
 
     const words = speechResult
         .toLowerCase()
-        .replaceAll(/[:;,.!?]/, "")
+        .replaceAll(/[:;,.!?]/g, "")
         .trim()
         .split(" ");
     if (await verifyPrivateKey(fetch, words, user.publicKey)) {
