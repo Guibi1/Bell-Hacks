@@ -1,10 +1,17 @@
 import { text } from "@sveltejs/kit";
 import { twiml } from "twilio";
 
-export async function POST() {
-    const twilio = new twiml.VoiceResponse();
+export async function GET({ setHeaders }) {
+    const response = new twiml.VoiceResponse();
 
-    twilio.say("Niggawatt. Niggawatt. Niggawatt. Niggawatt.");
+    const gather = response.gather({
+        input: ["speech"],
+        action: "/api/twilio/login",
+        method: "GET",
+    });
+    gather.say("Welcome to Phone Base! Please tell us your 4 words sercret passkey to continue.");
 
-    return text(twilio.toString());
+    response.say("We didn't receive any input. Goodbye!");
+    setHeaders({ "Content-Type": "text/xml" });
+    return text(response.toString());
 }
