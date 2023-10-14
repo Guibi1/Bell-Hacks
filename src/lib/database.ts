@@ -36,9 +36,9 @@ export async function findUser(phone: string) {
 export async function addPassword(user: schemas.User, website: string, password: string) {
     try {
         await db.insert(schemas.passwords).values({ userId: user.id, website, password });
-        return true
+        return true;
     } catch {
-        return false
+        return false;
     }
 }
 
@@ -46,11 +46,12 @@ export async function removePassword(user: schemas.User, website: string) {
     try {
         await db
             .delete(schemas.passwords)
-            .where(and(eq(schemas.passwords.website, website), eq(schemas.passwords.userId, user.id)));
-        return true
-    }
-    catch {
-        return false
+            .where(
+                and(eq(schemas.passwords.website, website), eq(schemas.passwords.userId, user.id))
+            );
+        return true;
+    } catch {
+        return false;
     }
 }
 export async function modifyPassword(user: schemas.User, website: string, password: string) {
@@ -61,23 +62,23 @@ export async function modifyPassword(user: schemas.User, website: string, passwo
             .where(
                 and(eq(schemas.passwords.website, website), eq(schemas.passwords.userId, user.id))
             );
-        return true
+        return true;
+    } catch {
+        return false;
     }
-    catch {
-        return false
-    }
-
 }
 export async function getPassword(user: schemas.User, website: string) {
     try {
         const res = await db
             .select({ password: schemas.passwords.password })
             .from(schemas.passwords)
-            .where(and(eq(schemas.passwords.website, website), eq(schemas.passwords.userId, user.id)));
-        return schemas.passwords.password
-    }
-    catch {
-        return null
+            .where(
+                and(eq(schemas.passwords.website, website), eq(schemas.passwords.userId, user.id))
+            )
+            .limit(1);
+        return res.at(0)?.password ?? null;
+    } catch {
+        return null;
     }
 }
 export async function createUser(phoneNumber: string) {
