@@ -13,16 +13,10 @@ export async function GET({ locals, url, setHeaders, fetch }) {
 
     const response = new twilio.twiml.VoiceResponse();
 
-    console.log(
-        "🚀 ~ file: +server.ts:15 ~ GET ~ await getConversation(locals.userId):",
-        locals.userId,
-        "convo",
-        await getConversation(locals.userId)
-    );
     const answer = await askGPT(
         fetch,
         { ...user, privateKey },
-        await getConversation(locals.userId),
+        await getConversation(locals.callId),
         speechResult
     );
 

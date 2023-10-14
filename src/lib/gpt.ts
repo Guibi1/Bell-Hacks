@@ -39,6 +39,7 @@ async function chatCompletion(
     if (password) {
         const content = `Your password is ${password}.`;
         messages.push({ role: "assistant", content });
+        console.log("🚀 ~ file: gpt.ts:44 ~ content:", content);
         return { content, messages, end };
     }
 
@@ -114,25 +115,25 @@ const functions = [
     {
         name: "addPassword",
         description:
-            "This fonction is going to add a password to the wanted website. It will return true if the process succeeded",
+            "Adds a password to the wanted website. It will return true if the process succeeded",
         parameters: params,
     },
     {
         name: "getPassword",
         description:
-            "This fonction is going to retreive and return the password of the wanted website. It will return true if the process succeeded",
+            "Retreives the password of the wanted website and shows it to the user. It will return true if the process succeeded",
         parameters: params,
     },
     {
         name: "removePassword",
         description:
-            "This fonction is going to remove a password associated with the wanted website. It will return true if the process succeeded",
+            "Removes a password associated with the wanted website. It will return true if the process succeeded",
         parameters: params,
     },
     {
         name: "modifyPassword",
         description:
-            "This fonction is going generate a new password for the wanted website. It will return true if the process succeeded",
+            "Generate a new password for the wanted website, and override the old one. It will return true if the process succeeded",
         parameters: params,
     },
     {
