@@ -1,5 +1,4 @@
 import { findUserId } from "$lib/database";
-import { wordList } from "$lib/word-list";
 import { fail, text } from "@sveltejs/kit";
 import twilio from "twilio";
 
@@ -18,7 +17,6 @@ export async function GET({ url, setHeaders }) {
             action: "/twilio/login",
             method: "GET",
             speechModel: "experimental_utterances",
-            hints: wordList.slice(0, 400).join(" "),
         });
         gather.say("Please tell us your 4 words sercret passkey.");
 

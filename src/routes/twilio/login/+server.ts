@@ -6,7 +6,7 @@ import twilio from "twilio";
 
 export async function GET({ locals, url, setHeaders, fetch }) {
     const phone = url.searchParams.get("Caller");
-    let speechResult = url.searchParams.get("SpeechResult");
+    const speechResult = url.searchParams.get("SpeechResult");
     if (!locals.callId || !phone || !speechResult) throw fail(400);
 
     const user = await findUser(phone);
@@ -14,10 +14,11 @@ export async function GET({ locals, url, setHeaders, fetch }) {
 
     const response = new twilio.twiml.VoiceResponse();
 
-    speechResult = speechResult.toLowerCase().trim();
-    if (speechResult.at(-1) === ".") speechResult = speechResult.slice(0, -1);
-
-    const words = speechResult.split(" ");
+    const words = speechResult
+        .toLowerCase()
+        .replaceAll(/[:;,.!?]/, "")
+        .trim()
+        .split(" ");
     if (await verifyPrivateKey(fetch, words, user.publicKey)) {
         setCallUserId(locals.callId, user.id);
         setPrivateKey(locals.callId, words);
@@ -32,6 +33,7 @@ export async function GET({ locals, url, setHeaders, fetch }) {
         input: ["speech"],
         action: "/twilio/login",
         method: "GET",
+        speechModel: "experimental_utterances",
     });
     gather.say("Incorrect passphrase. Please tell us your 4 words sercret passkey.");
 
