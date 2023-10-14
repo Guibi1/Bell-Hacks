@@ -53,9 +53,13 @@ def hash_words(selected_words):
 
 
 def decryptdata(input, inputsecretkey, publickey):
+
     decryptarray = []
     inputmodulus = publickey[0, publickey.shape[1]-1]
-
+    print(input)
+    print(type(input))
+    print(type(inputsecretkey))
+    print(type(publickey))
     u = input[:, :input.shape[1]-1]
     v = input[:, input.shape[1]-1]
     i = 0
@@ -101,6 +105,10 @@ def decryptPasswordApi(encryptedpassword, secretkeyinput, publickeyinput):
     publickey = publickeylisttoarray(publickeyinput)
     secretkey = hash_words(secretkeyinput)
     passwordarray = encryptedlisttoarray(encryptedpassword, publickey)
+
+    print(publickey)
+    print(secretkey)
+    print(passwordarray)
     password = decryptstring(passwordarray, secretkey, publickey)
     return password
 
@@ -115,7 +123,7 @@ class handler(BaseHTTPRequestHandler):
         public_key = received_data.get("publicKey")
         decrypted_password = decryptPasswordApi(
             encrypted_password, secret_key, public_key)
-        passwordjson = json.dumps(decrypted_password)
+        passwordjson = json.dumps({"result": decrypted_password})
 
         self.send_response(200)
         self.send_header('Content-type', 'application/json')
