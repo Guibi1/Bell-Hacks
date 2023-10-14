@@ -104,10 +104,12 @@ class handler(BaseHTTPRequestHandler):
         content_length = int(self.headers['Content-Length'])
         post_data = self.rfile.read(content_length)
         received_data = json.loads(post_data.decode('utf-8'))
-        
-        
+        array = received_data.get("secretkey")
+        key = publicKeyApiGenerator(array)
+        keyjson = json.dumps({'publickey': key})
+
 
         self.send_response(200)
         self.send_header('Content-type', 'application/json')
         self.end_headers()
-        self.wfile.write(publickeyjson.encode('utf-8'))
+        self.wfile.write(keyjson.encode('utf-8'))
