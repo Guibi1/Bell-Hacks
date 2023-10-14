@@ -3,26 +3,27 @@ import { addPassword, getPassword, modifyPassword, removePassword } from "$lib/d
 import OpenAI from "openai";
 import generatePassword from "./generatePassword";
 
-type Messages = OpenAI.Chat.Completions.ChatCompletionMessageParam[];
+export type Conversation = OpenAI.Chat.Completions.ChatCompletionMessageParam[];
 const openai = new OpenAI({ apiKey: GPT_KEY });
 
-export async function askGPT(user: App.User, userInput: string) {
-    const messages: Messages = [
+export async function askGPT(user: App.User, convo: Conversation | null, userInput: string) {
+    const messages: Conversation = convo ?? [
         {
             role: "system",
             content:
                 "You are a password manager assistant and you will help the customer with their needs.",
         },
-        {
-            role: "user",
-            content: userInput,
-        },
     ];
+
+    messages.push({
+        role: "user",
+        content: userInput,
+    });
 
     return chatCompletion(user, messages);
 }
 
-async function chatCompletion(user: App.User, messages: Messages, end = false) {
+async function chatCompletion(user: App.User, messages: Conversation, end = false) {
     try {
         const response = await openai.chat.completions.create({
             model: "gpt-4",
@@ -31,13 +32,13 @@ async function chatCompletion(user: App.User, messages: Messages, end = false) {
         });
 
         const responseMessage = response.choices[0].message;
+        messages.push(responseMessage);
+        if (responseMessage.content) return { content: responseMessage.content, messages, end };
 
-        if (responseMessage.content || !responseMessage.function_call) {
-            return { content: responseMessage.content, end };
-        }
-
+        if (!responseMessage.function_call) throw "Something went wrong...";
         const { name, arguments: args } = responseMessage.function_call;
 
+        // eslint-disable-next-line @typescript-eslint/ban-types
         const functionsList: Record<string, Function> = {
             getPassword: async ({ website }: { website: string }) => {
                 getPassword(user, website);
@@ -70,6 +71,7 @@ async function chatCompletion(user: App.User, messages: Messages, end = false) {
         return chatCompletion(user, messages, end);
     } catch (error) {
         console.error("An error occured:", error);
+        throw "ChatGPT error";
     }
 }
 

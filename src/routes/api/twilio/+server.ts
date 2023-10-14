@@ -17,9 +17,7 @@ export async function GET({ url, setHeaders }) {
             action: "/api/twilio/login",
             method: "GET",
         });
-        gather.say(
-            "Please tell us your 4 words sercret passkey followed by the # symbol to continue."
-        );
+        gather.say("Please tell us your 4 words sercret passkey.");
 
         response.say("We didn't receive any input. Goodbye!");
     } else {

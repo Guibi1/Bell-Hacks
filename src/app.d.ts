@@ -7,6 +7,7 @@ declare global {
         type User = U;
         // interface Error {}
         interface Locals {
+            callId: string | null;
             userId: string | null;
         }
         // interface PageData {}
