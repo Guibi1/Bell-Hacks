@@ -11,7 +11,7 @@ export const passwords = mysqlTable(
     {
         id: serial("id").primaryKey(),
         userId: varchar("user_id", { length: 24 }).notNull(),
-        password: varchar("password", { length: 256 }).notNull(),
+        password: text("password").notNull(),
         website: varchar("website", { length: 512 }).notNull(),
     },
     (entry) => ({
