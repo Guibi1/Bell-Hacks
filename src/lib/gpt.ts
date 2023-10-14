@@ -62,13 +62,16 @@ async function chatCompletion(
         const functionsList: Record<string, Function> = {
             getPassword: async ({ website }: { website: string }) => {
                 const passwd = await getPassword(user, website);
+                console.log("PASSWORD GOT:", passwd);
                 if (passwd) {
                     password = await decrypt(f, user.privateKey, user.publicKey, passwd);
+                    console.log("PASSWORD decryt:", password);
                     return true;
                 } else return false;
             },
             addPassword: async ({ website }: { website: string }) => {
                 const passwd = generatePassword();
+                console.log("PASSWORD ADDED:", passwd);
                 const encrypted = await encrypt(f, user.publicKey, passwd);
                 if (await addPassword(user, website, encrypted)) {
                     password = passwd;
