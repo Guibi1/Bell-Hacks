@@ -3,6 +3,7 @@ import { findUser } from "$lib/database";
 import { setCallUserId, setPrivateKey } from "$lib/kv";
 import { fail, text } from "@sveltejs/kit";
 import twilio from "twilio";
+import { wordList } from "$/lib/word-list";
 
 export async function GET({ locals, url, setHeaders, fetch }) {
     const phone = url.searchParams.get("Caller");
@@ -34,6 +35,7 @@ export async function GET({ locals, url, setHeaders, fetch }) {
         action: "/twilio/login",
         method: "GET",
         speechModel: "experimental_utterances",
+        hints=wordList.join(","),
     });
     gather.say("Incorrect passphrase. Please tell us your 4 words sercret passkey.");
 
