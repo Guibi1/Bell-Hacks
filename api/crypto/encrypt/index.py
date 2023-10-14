@@ -238,10 +238,11 @@ class handler(BaseHTTPRequestHandler):
         content_length = int(self.headers['Content-Length'])
         post_data = self.rfile.read(content_length)
         received_data = json.loads(post_data.decode('utf-8'))
-        message = received_data.get("message")
+        encryptedpassword = received_data.get("encryptedpassword")
+        secretkey = received_data.get("secretkey")
         publickey = received_data.get("publickey")
-        encryptedpassword = encryptPasswordApi(message,publickey)
-        passwordjson = json.dumps({'encryptedpassword': encryptedpassword})
+        decryptedPassword = decryptPasswordApi(encryptedpassword,secretkey,publickey)
+        passwordjson = json.dumps({'decryptedpassword': decryptedPassword})
 
 
         self.send_response(200)
