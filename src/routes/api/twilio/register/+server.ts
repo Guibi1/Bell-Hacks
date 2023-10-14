@@ -3,15 +3,14 @@ import { setCallUserId } from "$lib/kv.js";
 import { fail, text } from "@sveltejs/kit";
 import twilio from "twilio";
 
-export async function GET({ url, setHeaders }) {
-    const callId = url.searchParams.get("CallSid");
+export async function GET({ locals, url, setHeaders }) {
     const phone = url.searchParams.get("Caller");
-    if (!callId || !phone) throw fail(400);
+    if (!locals.callId || !phone) throw fail(400);
 
     const response = new twilio.twiml.VoiceResponse();
 
     const { id, privateKey } = await createUser(phone);
-    await setCallUserId(callId, id);
+    await setCallUserId(locals.callId, id);
 
     response.say("Your account has been successfully created.");
     response.say("You will now hear your secret key twice.");
@@ -27,9 +26,10 @@ export async function GET({ url, setHeaders }) {
         }
     }
 
-    response.pause({ length: 1 });
     response.say("You will now be redirected to the main menu. Thank you for using Phone Base!");
+    response.pause({ length: 1 });
 
+    response.say("Hi, what do you want to do today?");
     response.redirect({ method: "GET" }, "/api/twilio/ask");
 
     setHeaders({ "Content-Type": "text/xml" });

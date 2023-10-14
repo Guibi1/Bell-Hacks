@@ -13,6 +13,17 @@ const connection = connect({
 
 const db = drizzle(connection, { schema: schemas });
 
+export async function getUser(id: string | null) {
+    if (!id) return null;
+
+    try {
+        const res = await db.select().from(schemas.users).where(eq(schemas.users.id, id)).limit(1);
+        return res.at(0) ?? null;
+    } catch {
+        return null;
+    }
+}
+
 export async function findUser(phone: string) {
     const user = await db.query.phones.findFirst({
         columns: { userId: true },

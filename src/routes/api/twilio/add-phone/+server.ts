@@ -1,11 +1,10 @@
 import { fail, text } from "@sveltejs/kit";
 import twilio from "twilio";
 
-export async function GET({ url, setHeaders }) {
-    const callId = url.searchParams.get("CallSid");
+export async function GET({ locals, url, setHeaders }) {
     const phone = url.searchParams.get("Caller");
     const digits = url.searchParams.get("Digits");
-    if (!callId || !phone || !digits) throw fail(400);
+    if (!locals.callId || !phone || !digits) throw fail(400);
 
     const response = new twilio.twiml.VoiceResponse();
 
