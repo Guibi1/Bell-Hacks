@@ -1,8 +1,8 @@
 import { text } from "@sveltejs/kit";
-import { twiml } from "twilio";
+import twilio from "twilio";
 
 export async function GET({ setHeaders }) {
-    const response = new twiml.VoiceResponse();
+    const response = new twilio.twiml.VoiceResponse();
 
     const gather = response.gather({
         input: ["speech"],
