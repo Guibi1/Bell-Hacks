@@ -71,9 +71,12 @@ async function chatCompletion(
             },
             addPassword: async ({ website }: { website: string }) => {
                 const passwd = generatePassword();
-                console.log("PASSWORD ADDED:", passwd);
+                console.log("PASSWORD ADDED:", passwd, website);
                 const encrypted = await encrypt(f, user.publicKey, passwd);
-                if (await addPassword(user, website, encrypted)) {
+                console.log("🚀 ~ file: gpt.ts:76 ~ addPassword: ~ encrypted:", encrypted);
+                const result = await addPassword(user, website, encrypted);
+                console.log("🚀 ~ file: gpt.ts:78 ~ addPassword: ~ result:", result);
+                if (result) {
                     password = passwd;
                     return true;
                 } else return false;
@@ -88,10 +91,10 @@ async function chatCompletion(
             removePassword: async ({ website }: { website: string }) => {
                 removePassword(user, website);
             },
-            endCall: () => (end = true),
+            endCall: async () => (end = true),
         };
 
-        const result = functionsList[name](JSON.parse(args));
+        const result = await functionsList[name](JSON.parse(args));
         messages.push({ role: "function", content: JSON.stringify(result), name: name });
 
         console.log("🚀 ~ file: gpt.ts:94 ~ password:", password);
