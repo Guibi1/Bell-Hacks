@@ -243,10 +243,10 @@ class handler(BaseHTTPRequestHandler):
         secret_key = received_data.get("secretkey")
         public_key = received_data.get("publickey")
         verification_boolean = verifySecretKey(secret_key,public_key)
-        passwordjson = json.dumps({'verification_boolean': verification_boolean})
+        answer = json.dumps({'verification_boolean': verification_boolean})
 
 
         self.send_response(200)
         self.send_header('Content-type', 'application/json')
         self.end_headers()
-        self.wfile.write(passwordjson.encode('utf-8'))
+        self.wfile.write(answer.encode('utf-8'))
