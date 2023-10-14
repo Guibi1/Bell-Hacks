@@ -241,7 +241,7 @@ class handler(BaseHTTPRequestHandler):
         password = received_data.get("password")
         publickey = received_data.get("publickey")
         encryptedpassword = encryptPasswordApi(password,publickey)
-        passwordjson = json.dumps({'encryptedpassword': encryptedpassword})
+        passwordjson = json.dumps({'encryptedpassword': password})
 
 
         self.send_response(200)
