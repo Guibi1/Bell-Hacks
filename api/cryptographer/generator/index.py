@@ -87,18 +87,8 @@ def publicKeyApiGenerator(secretkey):
     publickey = generate_public_key(secretkeyarr,20, random.choice(prime_list_larger_100))
     return np.array(publickeyarraytolist(publickey)).astype(int).tolist()
 
-public_key = publicKeyApiGenerator(["Help!","When!","Help!","When!"])
-publickeyjson = json.dumps({'publickey': public_key})
-
 class handler(BaseHTTPRequestHandler):
  
-    def do_GET(self):
-        
-        self.send_response(200)
-        self.send_header('Content-type','application/json')
-        self.end_headers()
-        self.wfile.write(publickeyjson.encode('utf-8'))
-        return
     
     def do_POST(self):
         content_length = int(self.headers['Content-Length'])
