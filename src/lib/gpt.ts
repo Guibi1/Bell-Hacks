@@ -22,7 +22,7 @@ export async function askGPT(user: App.User, userInput: string) {
     return chatCompletion(user, messages);
 }
 
-async function chatCompletion(user: App.User, messages: Messages) {
+async function chatCompletion(user: App.User, messages: Messages, end = false) {
     try {
         const response = await openai.chat.completions.create({
             model: "gpt-4",
@@ -33,7 +33,7 @@ async function chatCompletion(user: App.User, messages: Messages) {
         const responseMessage = response.choices[0].message;
 
         if (responseMessage.content || !responseMessage.function_call) {
-            return { content: responseMessage.content };
+            return { content: responseMessage.content, end };
         }
 
         const { name, arguments: args } = responseMessage.function_call;
@@ -51,12 +51,15 @@ async function chatCompletion(user: App.User, messages: Messages) {
             removePassword: async ({ website }: { website: string }) => {
                 removePassword(user, website);
             },
+            endCall: () => {
+                end = true;
+            },
         };
 
         const result = functionsList[name](JSON.parse(args));
         messages.push({ role: "function", content: JSON.stringify(result), name: name });
 
-        return chatCompletion(user, messages);
+        return chatCompletion(user, messages, end);
     } catch (error) {
         console.error("An error occured:", error);
     }
@@ -98,5 +101,15 @@ const functions = [
         description:
             "Will modify the and generate another password associated with the name of the Website based on the uId, will return the pasword if the operation succeeded and null if it did not",
         parameters: params,
+    },
+    {
+        name: "endCall",
+        description:
+            "This function will end the call with the user. Only use this function if you are sure the customer says they want to quit",
+        parameters: {
+            type: "object",
+            properties: {},
+            required: [],
+        },
     },
 ];
