@@ -3,8 +3,8 @@ import math
 
 
 
-def generate_key_pair(vectorsize, publickeycount, modulus):
-    secretkey = np.random.randint(0, 20, vectorsize)
+def generate_key_pair(secretkey, publickeycount, modulus):
+    vectorsize = len(secretkey)
 
     publickey = np.random.randint(100, 400, (publickeycount, vectorsize))
 
@@ -21,8 +21,8 @@ def generate_key_pair(vectorsize, publickeycount, modulus):
     finalpublickey = np.column_stack((publickey, addedmodulus))
     
     finalpublickey = np.column_stack((finalpublickey,np.ones([publickeycount,1])*modulus))
-    finalsecretkey = np.append(secretkey,modulus)
-    return finalsecretkey, finalpublickey
+    
+    return secretkey, finalpublickey
 
 
 

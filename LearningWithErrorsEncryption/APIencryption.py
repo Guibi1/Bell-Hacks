@@ -1,6 +1,7 @@
 import random
 from sympy.ntheory.factor_ import totient
 import numpy as np
+import json
 
 prime_list = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 157, 163, 167, 173, 179, 181, 191, 193, 197]
 prime_list_larger_100 = [101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 157, 163, 167, 173, 179, 181, 191, 193, 197]
@@ -216,12 +217,12 @@ def publicKeyApiGenerator(secretkey):
 
     secretkeyarr = hash_words(secretkey)
     publickey = generate_public_key(secretkeyarr,20, random.choice(prime_list_larger_100))
-    return publickeyarraytolist(publickey)
+    return np.array(publickeyarraytolist(publickey)).astype(int).tolist()
 
 def encryptPasswordApi(password,publickeyinput):
     publickey = publickeylisttoarray(publickeyinput)
     encryptedpassword = encryptstring(password,publickey)
-    return encryptedarraytolist(encryptedpassword)
+    return (np.array(encryptedarraytolist(encryptedpassword)).astype(int)).tolist()
 
 def decryptPasswordApi(encryptedpassword, secretkeyinput, publickeyinput):
     publickey = publickeylisttoarray(publickeyinput)
@@ -234,10 +235,10 @@ def decryptPasswordApi(encryptedpassword, secretkeyinput, publickeyinput):
 
 chosen_words = words_to_list('LearningWithErrorsEncryption\words300.txt')
 
+password = "helpme123"
 
 secret_key = pick_four_words(chosen_words)
 public_key = publicKeyApiGenerator(secret_key)
-password = "helpme123"
 encryptedpassword = encryptPasswordApi(password,public_key)
 decryptedpassword = decryptPasswordApi(encryptedpassword,secret_key,public_key)
 verificationValue = verifySecretKey(secret_key,public_key)
@@ -250,5 +251,11 @@ print("Password: \n",password)
 print("Encrypted password: \n",encryptedpassword)
 print("Decrypted password: \n",decryptedpassword)
 
+print(json.dumps({'publickey': public_key}))
 
+print(json.dumps({'secretkey': secret_key}))
+
+print(json.dumps({'encryptedpassword': encryptedpassword}))
+
+print(json.dumps({'decryptedpassword': decryptedpassword}))
 
