@@ -1,12 +1,18 @@
 import { GPT_KEY } from "$env/static/private";
+import { decrypt, encrypt } from "$lib/crypto";
 import { addPassword, getPassword, modifyPassword, removePassword } from "$lib/database";
+import generatePassword from "$lib/generatePassword";
 import OpenAI from "openai";
-import generatePassword from "./generatePassword";
 
 export type Conversation = OpenAI.Chat.Completions.ChatCompletionMessageParam[];
 const openai = new OpenAI({ apiKey: GPT_KEY });
 
-export async function askGPT(user: App.User, convo: Conversation | null, userInput: string) {
+export async function askGPT(
+    f: typeof fetch,
+    user: App.User & { privateKey: string[] },
+    convo: Conversation | null,
+    userInput: string
+) {
     const messages: Conversation = convo ?? [
         {
             role: "system",
@@ -20,10 +26,22 @@ export async function askGPT(user: App.User, convo: Conversation | null, userInp
         content: userInput,
     });
 
-    return chatCompletion(user, messages);
+    return chatCompletion(f, user, messages);
 }
 
-async function chatCompletion(user: App.User, messages: Conversation, end = false,password=null) {
+async function chatCompletion(
+    f: typeof fetch,
+    user: App.User & { privateKey: string[] },
+    messages: Conversation,
+    end = false,
+    password?: string
+) {
+    if (password) {
+        const content = `Your password is ${password}.`;
+        messages.push({ role: "assistant", content });
+        return { content, messages, end };
+    }
+
     try {
         const response = await openai.chat.completions.create({
             model: "gpt-4",
@@ -42,33 +60,37 @@ async function chatCompletion(user: App.User, messages: Conversation, end = fals
         // eslint-disable-next-line @typescript-eslint/ban-types
         const functionsList: Record<string, Function> = {
             getPassword: async ({ website }: { website: string }) => {
-                getPassword(user, website);
+                const passwd = await getPassword(user, website);
+                if (passwd) {
+                    password = await decrypt(f, user.privateKey, user.publicKey, passwd);
+                    return true;
+                } else return false;
             },
             addPassword: async ({ website }: { website: string }) => {
-                const password = generatePassword();
-                if (await addPassword(user, website, password)) {
-                   ;
-                } else return null;
+                const passwd = generatePassword();
+                const encrypted = await encrypt(f, user.publicKey, passwd);
+                if (await addPassword(user, website, encrypted)) {
+                    password = passwd;
+                    return true;
+                } else return false;
             },
             modifyPassword: async ({ website }: { website: string }) => {
-                const password = generatePassword();
-                if (await modifyPassword(user, website, password)) {
-                    ;
-                } else return null;
+                const passwd = generatePassword();
+                if (await modifyPassword(user, website, passwd)) {
+                    password = passwd;
+                    return true;
+                } else return false;
             },
             removePassword: async ({ website }: { website: string }) => {
                 removePassword(user, website);
             },
-            endCall: () => {
-                end = true;
-            },
+            endCall: () => (end = true),
         };
-        password=password
 
         const result = functionsList[name](JSON.parse(args));
         messages.push({ role: "function", content: JSON.stringify(result), name: name });
 
-        return chatCompletion(user, messages, end,password);
+        return chatCompletion(f, user, messages, end, password);
     } catch (error) {
         console.error("An error occured:", error);
         throw "ChatGPT error";

@@ -14,8 +14,9 @@ export async function GET({ url, setHeaders }) {
     if (userId) {
         const gather = response.gather({
             input: ["speech"],
-            action: "/api/twilio/login",
+            action: "/twilio/login",
             method: "GET",
+            speechModel: "experimental_utterances",
         });
         gather.say("Please tell us your 4 words sercret passkey.");
 
@@ -23,7 +24,7 @@ export async function GET({ url, setHeaders }) {
     } else {
         const gather = response.gather({
             input: ["dtmf"],
-            action: "/api/twilio/add-phone",
+            action: "/twilio/add-phone",
             method: "GET",
         });
         gather.say(
@@ -33,7 +34,7 @@ export async function GET({ url, setHeaders }) {
             "If you already have an account, compose your old phone number, followed by the # symbol."
         );
 
-        response.redirect({ method: "GET" }, "/api/twilio/register");
+        response.redirect({ method: "GET" }, "/twilio/register");
     }
 
     setHeaders({ "Content-Type": "text/xml" });

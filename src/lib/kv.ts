@@ -34,3 +34,20 @@ export async function setConversation(callId: string, messages: Conversation) {
 export async function deleteConversation(callId: string) {
     return (await kv.del("convo" + callId)) == 1;
 }
+
+export async function getPrivateKey(callId: string): Promise<string[] | null> {
+    return await kv.get("priv" + callId);
+}
+
+export async function setPrivateKey(callId: string, messages: string[]) {
+    try {
+        kv.set("priv" + callId, JSON.stringify(messages));
+        return true;
+    } catch {
+        return false;
+    }
+}
+
+export async function deletePrivateKey(callId: string) {
+    return (await kv.del("priv" + callId)) == 1;
+}

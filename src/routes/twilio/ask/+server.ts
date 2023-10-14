@@ -6,7 +6,7 @@ export async function GET({ setHeaders }) {
 
     response.gather({
         input: ["speech"],
-        action: "/api/twilio/answer",
+        action: "/twilio/answer",
         method: "GET",
     });
 
