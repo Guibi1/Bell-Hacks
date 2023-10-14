@@ -239,8 +239,8 @@ class handler(BaseHTTPRequestHandler):
         post_data = self.rfile.read(content_length)
         received_data = json.loads(post_data.decode('utf-8'))
         array = received_data.get("secretkey")
-        key = hash_function(array)
-        keyjson = json.dumps({'publickey': key})
+        key = hash_words(array)
+        keyjson = json.dumps({'hashwords': key})
 
 
         self.send_response(200)
