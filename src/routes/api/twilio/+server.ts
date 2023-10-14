@@ -1,4 +1,4 @@
-import { findUser } from "$lib/database";
+import { findUserId } from "$lib/database";
 import { fail, text } from "@sveltejs/kit";
 import twilio from "twilio";
 
@@ -6,7 +6,7 @@ export async function GET({ url, setHeaders }) {
     const phone = url.searchParams.get("Caller");
     if (!phone) throw fail(400);
 
-    const userId = await findUser(phone);
+    const userId = await findUserId(phone);
 
     const response = new twilio.twiml.VoiceResponse();
     response.say("Welcome to Phone Base!");
@@ -26,7 +26,9 @@ export async function GET({ url, setHeaders }) {
             action: "/api/twilio/add-phone",
             method: "GET",
         });
-        gather.say("If you are new to Phone Base, press the # symbol.");
+        gather.say(
+            "If you are new to Phone Base and would like to create an account, press the # symbol."
+        );
         gather.say(
             "If you already have an account, compose your old phone number, followed by the # symbol."
         );

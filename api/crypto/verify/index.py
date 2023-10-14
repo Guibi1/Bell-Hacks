@@ -240,10 +240,10 @@ class handler(BaseHTTPRequestHandler):
         content_length = int(self.headers['Content-Length'])
         post_data = self.rfile.read(content_length)
         received_data = json.loads(post_data.decode('utf-8'))
-        secret_key = received_data.get("secretkey")
-        public_key = received_data.get("publickey")
+        secret_key = received_data.get("secretKey")
+        public_key = received_data.get("publicKey")
         verification_boolean = verifySecretKey(secret_key,public_key)
-        answer = json.dumps({'verification_boolean': verification_boolean})
+        answer = json.dumps({'success': verification_boolean})
 
 
         self.send_response(200)

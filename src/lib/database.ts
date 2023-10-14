@@ -3,7 +3,7 @@ import * as schemas from "$lib/schemas";
 import { connect } from "@planetscale/database";
 import { and, eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/planetscale-serverless";
-import { generatePrivateKey, generateUserId } from "./generate";
+import { generateUserId } from "./generate";
 
 const connection = connect({
     host: DATABASE_HOST,
@@ -24,13 +24,23 @@ export async function getUser(id: string | null) {
     }
 }
 
-export async function findUser(phone: string) {
+export async function findUserId(phone: string) {
     const user = await db.query.phones.findFirst({
         columns: { userId: true },
         where: (phones) => eq(phones.number, phone),
     });
 
     return user?.userId;
+}
+
+export async function findUser(phone: string) {
+    const result = await db.query.phones.findFirst({
+        columns: {},
+        where: (phones) => eq(phones.number, phone),
+        with: { user: true },
+    });
+
+    return result?.user ?? null;
 }
 
 export async function addPassword(user: schemas.User, website: string, password: string) {
@@ -81,15 +91,11 @@ export async function getPassword(user: schemas.User, website: string) {
         return null;
     }
 }
-export async function createUser(phoneNumber: string) {
+export async function createUser(phoneNumber: string, publicKey: string) {
     const id = generateUserId();
-    const privateKey = generatePrivateKey();
-
-    // const res = await fetch("/api/encrypt/private")
-    const publicKey = "[12,234]";
 
     await db.insert(schemas.users).values({ id, publicKey });
     await db.insert(schemas.phones).values({ userId: id, number: phoneNumber });
 
-    return { id, privateKey };
+    return id;
 }
