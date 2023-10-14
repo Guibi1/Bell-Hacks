@@ -104,10 +104,10 @@ class handler(BaseHTTPRequestHandler):
         content_length = int(self.headers['Content-Length'])
         post_data = self.rfile.read(content_length)
         received_data = json.loads(post_data.decode('utf-8'))
-        selected_words = received_data.get("secretkey")
+        
         
 
         self.send_response(200)
-        self.send_header('Content-type', 'plain/text')
+        self.send_header('Content-type', 'application/json')
         self.end_headers()
-        self.wfile.write(selected_words.encode('utf-8'))
+        self.wfile.write(received_data.encode('utf-8'))
