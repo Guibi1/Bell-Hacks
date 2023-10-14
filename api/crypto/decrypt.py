@@ -123,7 +123,7 @@ class handler(BaseHTTPRequestHandler):
         public_key = received_data.get("publicKey")
         decrypted_password = decryptPasswordApi(
             encrypted_password, secret_key, public_key)
-        passwordjson = json.dumps(decrypted_password)
+        passwordjson = json.dumps({"result": decrypted_password})
 
         self.send_response(200)
         self.send_header('Content-type', 'application/json')
