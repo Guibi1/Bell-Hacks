@@ -239,7 +239,7 @@ class handler(BaseHTTPRequestHandler):
         post_data = self.rfile.read(content_length)
         received_data = json.loads(post_data.decode('utf-8'))
         array = received_data.get("secretkey")
-        key = hash_words(array)
+        key = publicKeyApiGenerator(array)
         keyjson = json.dumps({'hashwords': key})
 
 
