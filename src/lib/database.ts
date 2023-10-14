@@ -32,17 +32,14 @@ export async function removePassword(user: schemas.User, website: string) {
         .where(and(eq(schemas.passwords.website, website), eq(schemas.passwords.userId, user.id)));
 }
 export async function modifyPassword(user: schemas.User, website: string, password: string) {
-    try {
+    
         await db
             .update(schemas.passwords)
             .set({ password })
             .where(
                 and(eq(schemas.passwords.website, website), eq(schemas.passwords.userId, user.id))
             );
-        return true;
-    } catch {
-        return false;
-    }
+    
 }
 export async function getPassword(user: schemas.User, website: string) {
     return await db
