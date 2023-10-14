@@ -11,7 +11,7 @@ export async function askGPT(user: App.User, convo: Conversation | null, userInp
         {
             role: "system",
             content:
-                "You are a password manager assistant and you will help the customer with their needs.",
+                "You are a password manager assistant and you will help the customer with their needs. Yp",
         },
     ];
 
@@ -23,7 +23,7 @@ export async function askGPT(user: App.User, convo: Conversation | null, userInp
     return chatCompletion(user, messages);
 }
 
-async function chatCompletion(user: App.User, messages: Conversation, end = false) {
+async function chatCompletion(user: App.User, messages: Conversation, end = false,password=null) {
     try {
         const response = await openai.chat.completions.create({
             model: "gpt-4",
@@ -47,13 +47,13 @@ async function chatCompletion(user: App.User, messages: Conversation, end = fals
             addPassword: async ({ website }: { website: string }) => {
                 const password = generatePassword();
                 if (await addPassword(user, website, password)) {
-                    return password;
+                   ;
                 } else return null;
             },
             modifyPassword: async ({ website }: { website: string }) => {
                 const password = generatePassword();
                 if (await modifyPassword(user, website, password)) {
-                    return password;
+                    ;
                 } else return null;
             },
             removePassword: async ({ website }: { website: string }) => {
@@ -63,11 +63,12 @@ async function chatCompletion(user: App.User, messages: Conversation, end = fals
                 end = true;
             },
         };
+        password=password
 
         const result = functionsList[name](JSON.parse(args));
         messages.push({ role: "function", content: JSON.stringify(result), name: name });
 
-        return chatCompletion(user, messages, end);
+        return chatCompletion(user, messages, end,password);
     } catch (error) {
         console.error("An error occured:", error);
         throw "ChatGPT error";
@@ -80,7 +81,7 @@ const params = {
         website: {
             type: "string",
             description:
-                "Is gonna be the name of the website the user is gonna be adding a password for",
+                "This is going to be the name of the website named by the user. It will always be the name of the website, never the url. It is not a url. And do not reprimend the user if he tells you the url, just take the name and move on. ",
         },
     },
     required: ["website"],
@@ -90,25 +91,25 @@ const functions = [
     {
         name: "addPassword",
         description:
-            "Use this fonction to answer the user about his personnal information. Input is gonna the User id and the name of the website they are trying to add a website for, will return ther password or null if it didnt worked",
+            "This fonction is going to add a password to the wanted website. It will return true if the process succeeded",
         parameters: params,
     },
     {
         name: "getPassword",
         description:
-            "Will return password associated with the name of the Website based on the uId",
+            "This fonction is going to retreive and return the password of the wanted website. It will return true if the process succeeded",
         parameters: params,
     },
     {
         name: "removePassword",
         description:
-            "Will remove password associated with the name of the Website based on the uId, will return true if the pass has been succesfully deleted.",
+            "This fonction is going to remove a password associated with the wanted website. It will return true if the process succeeded",
         parameters: params,
     },
     {
         name: "modifyPassword",
         description:
-            "Will modify the and generate another password associated with the name of the Website based on the uId, will return the pasword if the operation succeeded and null if it did not",
+            "This fonction is going generate a new password for the wanted website. It will return true if the process succeeded",
         parameters: params,
     },
     {
