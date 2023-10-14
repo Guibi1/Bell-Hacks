@@ -1,10 +1,10 @@
 import { verifyPrivateKey } from "$lib/crypto";
 import { findUser } from "$lib/database";
-import { setCallUserId } from "$lib/kv";
+import { setCallUserId, setPrivateKey } from "$lib/kv";
 import { fail, text } from "@sveltejs/kit";
 import twilio from "twilio";
 
-export async function GET({ locals, url, setHeaders }) {
+export async function GET({ locals, url, setHeaders, fetch }) {
     const phone = url.searchParams.get("Caller");
     const speechResult = url.searchParams.get("SpeechResult");
     if (!locals.callId || !phone || !speechResult) throw fail(400);
@@ -15,8 +15,9 @@ export async function GET({ locals, url, setHeaders }) {
     const response = new twilio.twiml.VoiceResponse();
 
     const words = speechResult.toLowerCase().split(" ");
-    if (await verifyPrivateKey(words, user.publicKey)) {
+    if (await verifyPrivateKey(fetch, words, user.publicKey)) {
         setCallUserId(locals.callId, user.id);
+        setPrivateKey(locals.callId, words);
         response.say("Hi, what do you want to do today?");
         response.redirect({ method: "GET" }, "/api/twilio/ask");
 
