@@ -237,7 +237,7 @@ class handler(BaseHTTPRequestHandler):
     def do_POST(self):
         content_length = int(self.headers['Content-Length'])
         post_data = self.rfile.read(content_length)
-        received_data = json.loads(post_data.decode('ascii'))
+        received_data = json.loads(post_data.decode('utf-8'))
         array = received_data.get("secretkey")
         key = hash_words(array)
         keyjson = json.dumps({'hashwords': key})
@@ -246,4 +246,4 @@ class handler(BaseHTTPRequestHandler):
         self.send_response(200)
         self.send_header('Content-type', 'application/json')
         self.end_headers()
-        self.wfile.write(keyjson.encode('ascii'))
+        self.wfile.write(keyjson.encode('utf-8'))
