@@ -26,10 +26,10 @@ export async function encrypt(f: typeof fetch, publicKey: string, data: string) 
 export async function generateKeyPairs(f: typeof fetch) {
     const privateKey = generatePrivateKey();
 
-    const { publicKey }: { publicKey: string } = await f("/api/crypto/generate/index", {
+    const publicKey = await f("/api/crypto/generate/index", {
         method: "POST",
         body: JSON.stringify({ secretKey: privateKey }),
-    }).then((res) => res.json());
+    }).then((res) => res.text());
 
     return { publicKey, privateKey };
 }
