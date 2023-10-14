@@ -17,7 +17,7 @@ export async function askGPT(
         {
             role: "system",
             content:
-                "You are a password manager assistant and you will help the customer with their needs. Yp",
+                "You are a password manager assistant and you will help the customer with their needs",
         },
     ];
 
