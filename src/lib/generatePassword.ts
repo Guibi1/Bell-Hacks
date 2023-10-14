@@ -61,7 +61,7 @@ function getRandomNumbers(count: number): string {
 
 // Function to generate random characters
 function getRandomCharacters(count: number): string {
-    const characters: string = "!@#$*,.?";
+    const characters: string = "!#$*,.?";
     let result: string = "";
     for (let i: number = 0; i < count; i++) {
         result += characters.charAt(Math.floor(Math.random() * characters.length));

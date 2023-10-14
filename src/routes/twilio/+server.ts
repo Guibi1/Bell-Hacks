@@ -1,4 +1,5 @@
 import { findUserId } from "$lib/database";
+import { gatherLoginSercretKey, gatherNewPhoneChoice } from "$lib/twilio.js";
 import { fail, text } from "@sveltejs/kit";
 import twilio from "twilio";
 
@@ -12,28 +13,10 @@ export async function GET({ url, setHeaders }) {
     response.say("Welcome to Phone Base!");
 
     if (userId) {
-        const gather = response.gather({
-            input: ["speech"],
-            action: "/twilio/login",
-            method: "GET",
-            speechModel: "experimental_utterances",
-        });
-        gather.say("Please tell us your 4 words sercret passkey.");
-
+        gatherLoginSercretKey(response);
         response.say("We didn't receive any input. Goodbye!");
     } else {
-        const gather = response.gather({
-            input: ["dtmf"],
-            action: "/twilio/add-phone",
-            method: "GET",
-        });
-        gather.say(
-            "If you are new to Phone Base and would like to create an account, press the # symbol."
-        );
-        gather.say(
-            "If you already have an account, compose your old phone number, followed by the # symbol."
-        );
-
+        gatherNewPhoneChoice(response);
         response.redirect({ method: "GET" }, "/twilio/register");
     }
 

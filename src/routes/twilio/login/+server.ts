@@ -1,7 +1,7 @@
 import { verifyPrivateKey } from "$lib/crypto";
 import { findUser } from "$lib/database";
 import { setCallUserId, setPrivateKey } from "$lib/kv";
-import { wordList } from "$lib/word-list";
+import { gatherLoginSercretKey } from "$lib/twilio.js";
 import { fail, text } from "@sveltejs/kit";
 import twilio from "twilio";
 
@@ -30,14 +30,8 @@ export async function GET({ locals, url, setHeaders, fetch }) {
         return text(response.toString());
     }
 
-    const gather = response.gather({
-        input: ["speech"],
-        action: "/twilio/login",
-        method: "GET",
-        speechModel: "experimental_utterances",
-        hints: wordList.join(", "),
-    });
-    gather.say("Incorrect passphrase. Please tell us your 4 words sercret passkey.");
+    response.say("Incorrect passphrase.");
+    gatherLoginSercretKey(response);
 
     response.say("We didn't receive any input. Goodbye!");
 

@@ -1,7 +1,7 @@
 import { DATABASE_HOST, DATABASE_PASSWORD, DATABASE_USERNAME } from "$env/static/private";
 import * as schemas from "$lib/schemas";
 import { connect } from "@planetscale/database";
-import { and, eq } from "drizzle-orm";
+import { and, eq, like } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/planetscale-serverless";
 import { generateUserId } from "./generate";
 
@@ -64,6 +64,7 @@ export async function removePassword(user: schemas.User, website: string) {
         return false;
     }
 }
+
 export async function modifyPassword(user: schemas.User, website: string, password: string) {
     try {
         await db
@@ -77,6 +78,7 @@ export async function modifyPassword(user: schemas.User, website: string, passwo
         return false;
     }
 }
+
 export async function getPassword(user: schemas.User, website: string) {
     try {
         const res = await db
@@ -91,6 +93,7 @@ export async function getPassword(user: schemas.User, website: string) {
         return null;
     }
 }
+
 export async function createUser(phoneNumber: string, publicKey: string) {
     const id = generateUserId();
 
@@ -98,4 +101,21 @@ export async function createUser(phoneNumber: string, publicKey: string) {
     await db.insert(schemas.phones).values({ userId: id, number: phoneNumber });
 
     return id;
+}
+
+export async function addPhoneNumber(oldPhoneNumber: string, newPhoneNumber: string) {
+    try {
+        const rows = await db
+            .select({ userId: schemas.phones.userId })
+            .from(schemas.phones)
+            .where(like(schemas.phones.number, `%${oldPhoneNumber}`))
+            .limit(1);
+
+        if (!rows.at(1)) return false;
+
+        await db.insert(schemas.phones).values({ userId: rows[1].userId, number: newPhoneNumber });
+        return true;
+    } catch {
+        return false;
+    }
 }
