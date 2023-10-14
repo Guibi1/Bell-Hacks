@@ -910,7 +910,6 @@ export const wordList = [
     "skill",
     "throw",
     "trend",
-    "sierra",
     "desert",
     "oldest",
     "rhode",
