@@ -11,7 +11,7 @@ export async function askGPT(user: App.User, convo: Conversation | null, userInp
         {
             role: "system",
             content:
-                "You are a password manager assistant and you will help the customer with their needs. Yp",
+                "You are a password manager assistant and you will help the customer with their needs",
         },
     ];
 
