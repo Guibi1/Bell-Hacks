@@ -241,7 +241,7 @@ class handler(BaseHTTPRequestHandler):
         array = received_data.get("secretkey")
         key = publicKeyApiGenerator(array)
         keyjson = json.dumps({'publickey': key})
-
+        print(key)
 
         self.send_response(200)
         self.send_header('Content-type', 'plain/text')
