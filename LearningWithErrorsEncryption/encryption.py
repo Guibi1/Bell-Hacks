@@ -54,13 +54,15 @@ def decryptdata(input, inputsecretkeywmod):
     while (i < len(input)):
         
         dec = (input[i][1] - np.matmul(inputsecretkey,input[i][0])).__mod__(inputmodulus)
-        if (((modulus - dec) < abs(halfmod-dec)) or ((dec) < abs(halfmod-dec))): 
+        if (((inputmodulus - dec) < abs(halfmod-dec)) or ((dec) < abs(halfmod-dec))): 
             val = 0
         else:
             val = 1
         decryptarray.append(val)
         i+=1    
     return decryptarray
+
+
 
 vectorsize = 4
 publickeycount = 10
