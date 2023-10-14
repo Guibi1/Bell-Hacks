@@ -1,12 +1,11 @@
 import adapter from "@sveltejs/adapter-vercel";
-import type { Config } from "@sveltejs/kit";
 import { vitePreprocess } from "@sveltejs/kit/vite";
 
-const config: Config = {
+/** @type {import('@sveltejs/kit').Config} */
+const config = {
     preprocess: vitePreprocess(),
     kit: {
         adapter: adapter(),
-        csrf: { checkOrigin: false },
     },
 };
 
