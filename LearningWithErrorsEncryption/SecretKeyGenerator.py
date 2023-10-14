@@ -87,7 +87,6 @@ def generate_public_key(secretkey, publickeycount, modulus):
 
 def encryptdata(input, inputpublickey):
 
-
     encryptedarray = []
     inputmodulus = int(inputpublickey[0,inputpublickey.shape[1]-1])
     binary_representation = np.binary_repr(input)
@@ -151,8 +150,6 @@ def encryptbyte(input, inputpublickey):
     encryptedarray = np.array(encryptedarray)
     return encryptedarray
 
-
-
 def encryptcharacter(input, inputpublickey):
     char_num = ord(input)
     char_bin = np.binary_repr(char_num,8)
@@ -160,6 +157,7 @@ def encryptcharacter(input, inputpublickey):
     return encrypted_byte
 
 def encryptstring(input, inputpublickey):
+    input = str(input)
     encryptedarray = np.empty(shape=[0,5])
     for chars in input:
         encryptedchar = encryptcharacter(chars,inputpublickey)
@@ -168,6 +166,7 @@ def encryptstring(input, inputpublickey):
     return encryptedarray
 
 def decryptstring(input, inputsecretkey, publickey):
+    
     bit_array = np.array(decryptdata(input, inputsecretkey, publickey))
     output = ""
     bitcount = bit_array.shape[0]/8
@@ -179,11 +178,14 @@ def decryptstring(input, inputsecretkey, publickey):
         output+=currentchar
         i+=1
 
-
-
     return output
 
 def encryptedarraytolist(input):
+    
+    flattened = [element for row in input for element in row]
+    return flattened
+
+def publickeyarraytolist(input):
     
     flattened = [element for row in input for element in row]
     return flattened
@@ -193,23 +195,60 @@ def encryptedlisttoarray(input, publickey):
     output = np.array([input[i:i+width] for i in range(0, len(input), width)])
     return output
 
+def publickeylisttoarray(input):
+    width = 6
+    output = np.array([input[i:i+width] for i in range(0, len(input), width)])
+    return output
+
+def verifySecretKey(secretkey, publickey):
+    if (len(secretkey) == 4): 
+        publickeyarr = publickeylisttoarray(publickey)
+        secretkeyarr = hash_words(secretkey)
+        testmessage = str(random.randint(256,512))
+        if (testmessage == decryptstring((encryptstring(testmessage,publickeyarr)),secretkeyarr,publickeyarr)):
+            return True
+        else: 
+            return False
+    else:
+        return False
+
+def publicKeyApiGenerator(secretkey):
+
+    secretkeyarr = hash_words(secretkey)
+    publickey = generate_public_key(secretkeyarr,20, random.choice(prime_list_larger_100))
+    return publickeyarraytolist(publickey)
+
+def encryptPasswordApi(password,publickeyinput):
+    publickey = publickeylisttoarray(publickeyinput)
+    encryptedpassword = encryptstring(password,publickey)
+    return encryptedarraytolist(encryptedpassword)
+
+def decryptPasswordApi(encryptedpassword, secretkeyinput, publickeyinput):
+    publickey = publickeylisttoarray(publickeyinput)
+    secretkey = hash_words(secretkeyinput)
+    passwordarray = encryptedlisttoarray(encryptedpassword,publickey)
+    password = decryptstring(passwordarray,secretkey,publickey)  
+    return password
+
+
+
 chosen_words = words_to_list('LearningWithErrorsEncryption\words300.txt')
-four_selected_words = pick_four_words(chosen_words)
-secret_key = hash_words(four_selected_words)
-public_key = generate_public_key(secret_key, 20, random.choice(prime_list_larger_100))
-message = "helpmeiwanttodie"
-encryptedmessage = encryptstring(message,public_key)
-outputencrypted = encryptedarraytolist(encryptedmessage)
-decryptedmessage = decryptstring(encryptedmessage,secret_key,public_key)
-unflattened = encryptedlisttoarray(outputencrypted,public_key)
 
-print("Randomly selected words: \n", four_selected_words)
+
+secret_key = pick_four_words(chosen_words)
+public_key = publicKeyApiGenerator(secret_key)
+password = "helpme123"
+encryptedpassword = encryptPasswordApi(password,public_key)
+decryptedpassword = decryptPasswordApi(encryptedpassword,secret_key,public_key)
+verificationValue = verifySecretKey(secret_key,public_key)
+
+
+print("Verification: \n", verificationValue)
 print("Secret key: \n", secret_key)
-print("Public Key: \n", public_key[:,0:public_key.shape[1]-1])
-print("Message: \n", message)
-print("Encrypted Message: \n",encryptedmessage)
-print("Flattened Encrypted Message: \n", outputencrypted)
-print("Unflattened Encrypted Message: \n", unflattened)
+print("Public key: \n",public_key)
+print("Password: \n",password)
+print("Encrypted password: \n",encryptedpassword)
+print("Decrypted password: \n",decryptedpassword)
 
-print("Decrypted Message: \n",decryptedmessage)
+
 

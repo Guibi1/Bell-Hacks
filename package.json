@@ -39,6 +39,7 @@
   "dependencies": {
     "@planetscale/database": "^1.11.0",
     "@sveltejs/adapter-vercel": "^3.0.3",
+    "@vercel/kv": "^0.2.3",
     "drizzle-orm": "^0.28.6",
     "openai": "^4.12.1",
     "twilio": "^4.18.1"

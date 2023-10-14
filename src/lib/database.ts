@@ -15,8 +15,8 @@ const db = drizzle(connection, { schema: schemas });
 
 export async function findUser(phone: string) {
     const user = await db.query.phones.findFirst({
+        columns: { userId: true },
         where: (phones) => eq(phones.number, phone),
-        with: { userId: true },
     });
 
     return user?.userId;
@@ -49,11 +49,13 @@ export async function getPassword(user: schemas.User, website: string) {
 }
 export async function createUser(phoneNumber: string) {
     const id = generateUserId();
-    const privatekey = generatePrivateKey();
+    const privateKey = generatePrivateKey();
 
     // const res = await fetch("/api/encrypt/private")
     const publicKey = "[12,234]";
 
     await db.insert(schemas.users).values({ id, publicKey });
     await db.insert(schemas.phones).values({ userId: id, number: phoneNumber });
+
+    return { id, privateKey };
 }
