@@ -37,9 +37,8 @@ async function chatCompletion(
     password?: string
 ) {
     if (password) {
-        const content = `Your password is ${password}.`;
+        const content = `Your password is ${password}. Is there anything else you want today?`;
         messages.push({ role: "assistant", content });
-        console.log("🚀 ~ file: gpt.ts:44 ~ content:", content);
         return { content, messages, end };
     }
 
@@ -62,34 +61,29 @@ async function chatCompletion(
         const functionsList: Record<string, Function> = {
             getPassword: async ({ website }: { website: string }) => {
                 const passwd = await getPassword(user, website);
-                console.log("PASSWORD GOT:", passwd);
                 if (passwd) {
                     password = await decrypt(f, user.privateKey, user.publicKey, passwd);
-                    console.log("PASSWORD decryt:", password);
                     return true;
                 } else return false;
             },
             addPassword: async ({ website }: { website: string }) => {
                 const passwd = generatePassword();
-                console.log("PASSWORD ADDED:", passwd, website);
                 const encrypted = await encrypt(f, user.publicKey, passwd);
-                console.log("🚀 ~ file: gpt.ts:76 ~ addPassword: ~ encrypted:", encrypted);
-                const result = await addPassword(user, website, encrypted);
-                console.log("🚀 ~ file: gpt.ts:78 ~ addPassword: ~ result:", result);
-                if (result) {
+                if (await addPassword(user, website, encrypted)) {
                     password = passwd;
                     return true;
                 } else return false;
             },
             modifyPassword: async ({ website }: { website: string }) => {
                 const passwd = generatePassword();
-                if (await modifyPassword(user, website, passwd)) {
+                const encrypted = await encrypt(f, user.publicKey, passwd);
+                if (await modifyPassword(user, website, encrypted)) {
                     password = passwd;
                     return true;
                 } else return false;
             },
             removePassword: async ({ website }: { website: string }) => {
-                removePassword(user, website);
+                return await removePassword(user, website);
             },
             endCall: async () => (end = true),
         };
