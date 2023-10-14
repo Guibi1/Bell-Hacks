@@ -1,7 +1,7 @@
 export function generateUserId() {
     let id: string = "";
 
-    for (let i = 0; i < 26; i++) {
+    for (let i = 0; i < 24; i++) {
         id += alphanumerics[Math.floor(Math.random() * alphanumerics.length)];
     }
 

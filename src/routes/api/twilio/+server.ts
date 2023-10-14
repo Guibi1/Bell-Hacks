@@ -1,17 +1,41 @@
-import { text } from "@sveltejs/kit";
+import { findUser } from "$lib/database";
+import { fail, text } from "@sveltejs/kit";
 import twilio from "twilio";
 
-export async function GET({ setHeaders }) {
+export async function GET({ url, setHeaders }) {
+    const phone = url.searchParams.get("Caller");
+    if (!phone) throw fail(400);
+
+    const userId = await findUser(phone);
+
     const response = new twilio.twiml.VoiceResponse();
+    response.say("Welcome to Phone Base!");
 
-    const gather = response.gather({
-        input: ["speech"],
-        action: "/api/twilio/login",
-        method: "GET",
-    });
-    gather.say("Welcome to Phone Base! Please tell us your 4 words sercret passkey to continue.");
+    if (userId) {
+        const gather = response.gather({
+            input: ["speech"],
+            action: "/api/twilio/login",
+            method: "GET",
+        });
+        gather.say(
+            "Please tell us your 4 words sercret passkey followed by the # symbol to continue."
+        );
 
-    response.say("We didn't receive any input. Goodbye!");
+        response.say("We didn't receive any input. Goodbye!");
+    } else {
+        const gather = response.gather({
+            input: ["dtmf"],
+            action: "/api/twilio/add-phone",
+            method: "GET",
+        });
+        gather.say("If you are new to Phone Base, press the # symbol.");
+        gather.say(
+            "If you already have an account, compose your old phone number, followed by the # symbol."
+        );
+
+        response.redirect({ method: "GET" }, "/api/twilio/register");
+    }
+
     setHeaders({ "Content-Type": "text/xml" });
     return text(response.toString());
 }
