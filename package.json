@@ -24,6 +24,7 @@
     "eslint": "^8.28.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-svelte": "^2.30.0",
+    "mysql2": "^3.6.1",
     "prettier": "^3.0.3",
     "prettier-plugin-organize-imports": "^3.2.3",
     "prettier-plugin-svelte": "^3.0.3",
@@ -38,6 +39,7 @@
   "dependencies": {
     "@planetscale/database": "^1.11.0",
     "drizzle-orm": "^0.28.6",
+    "openai": "^4.12.1",
     "twilio": "^4.18.1"
   }
 }

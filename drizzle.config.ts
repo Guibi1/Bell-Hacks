@@ -8,6 +8,6 @@ export default {
     out: "./.drizzle",
     driver: "mysql2",
     dbCredentials: {
-        connectionString: `mysql://${process.env["DATABASE_USERNAME"]}:${process.env["DATABASE_PASSWORD"]}@${process.env["DATABASE_HOST"]}/univox?ssl={"rejectUnauthorized":true}`,
+        connectionString: `mysql://${process.env["DATABASE_USERNAME"]}:${process.env["DATABASE_PASSWORD"]}@${process.env["DATABASE_HOST"]}/bell-hacks-2023?ssl={"rejectUnauthorized":true}`,
     },
 } satisfies Config;
