@@ -23,22 +23,29 @@ export async function findUser(phone: string) {
 }
 
 export async function addPassword(user: schemas.User, website: string, password: string) {
-    await db.insert(schemas.passwords).values({ userId: user.id, website, password });
+    return await db.insert(schemas.passwords).values({ userId: user.id, website, password });
 }
 
 export async function removePassword(user: schemas.User, website: string) {
-    await db
+    return await db
         .delete(schemas.passwords)
         .where(and(eq(schemas.passwords.website, website), eq(schemas.passwords.userId, user.id)));
 }
 export async function modifyPassword(user: schemas.User, website: string, password: string) {
-    await db
-        .update(schemas.passwords)
-        .set({ password })
-        .where(and(eq(schemas.passwords.website, website), eq(schemas.passwords.userId, user.id)));
+    try {
+        await db
+            .update(schemas.passwords)
+            .set({ password })
+            .where(
+                and(eq(schemas.passwords.website, website), eq(schemas.passwords.userId, user.id))
+            );
+        return true;
+    } catch {
+        return false;
+    }
 }
 export async function getPassword(user: schemas.User, website: string) {
-    await db
+    return await db
         .select({ password: schemas.passwords.password })
         .from(schemas.passwords)
         .where(and(eq(schemas.passwords.website, website), eq(schemas.passwords.userId, user.id)));
