@@ -15,6 +15,8 @@ export async function GET({ locals, url, setHeaders, fetch }) {
 
     console.log(
         "🚀 ~ file: +server.ts:15 ~ GET ~ await getConversation(locals.userId):",
+        locals.userId,
+        "convo",
         await getConversation(locals.userId)
     );
     const answer = await askGPT(
@@ -25,7 +27,7 @@ export async function GET({ locals, url, setHeaders, fetch }) {
     );
 
     response.say(answer.content);
-    setConversation(locals.callId, answer.messages);
+    await setConversation(locals.callId, answer.messages);
 
     if (!answer.end) {
         response.redirect({ method: "GET" }, "/twilio/ask");
