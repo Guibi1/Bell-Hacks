@@ -13,10 +13,6 @@ export async function askGPT(user: App.User, convo: Conversation | null, userInp
             content:
                 "You are a password manager assistant and you will help the customer with their needs. Yp",
         },
-        {
-            role: "user",
-            content: userInput,
-        },
     ];
 
     messages.push({
