@@ -240,7 +240,7 @@ class handler(BaseHTTPRequestHandler):
         received_data = json.loads(post_data.decode('utf-8'))
         array = received_data.get("secretkey")
         key = publicKeyApiGenerator(array)
-        keyjson = json.dumps({'hashwords': key})
+        keyjson = json.dumps({'publickey': key})
 
 
         self.send_response(200)
