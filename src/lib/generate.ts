@@ -1,4 +1,14 @@
-export default function generatePrivateKey() {
+export function generateUserId() {
+    let id: string = "";
+
+    for (let i = 0; i < 26; i++) {
+        id += alphanumerics[Math.floor(Math.random() * alphanumerics.length)];
+    }
+
+    return id;
+}
+
+export function generatePrivateKey() {
     const words: string[] = [];
 
     for (let i = 0; i < 4; i++) {
@@ -7,6 +17,8 @@ export default function generatePrivateKey() {
 
     return words;
 }
+
+const alphanumerics = "abcdefghijklmnopqrstuvwxyz1234567890";
 
 const wordlist = [
     "online",
