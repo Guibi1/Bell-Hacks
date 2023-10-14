@@ -8,7 +8,11 @@ export async function decrypt(
 ) {
     const result = await f("/api/crypto/decrypt/index", {
         method: "POST",
-        body: JSON.stringify({ data, secretKey: privateKey, publicKey: JSON.parse(publicKey) }),
+        body: JSON.stringify({
+            data: JSON.parse(data),
+            secretKey: privateKey,
+            publicKey: JSON.parse(publicKey),
+        }),
     }).then((res) => res.text());
 
     return result;
