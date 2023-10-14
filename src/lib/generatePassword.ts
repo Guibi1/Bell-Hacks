@@ -78,7 +78,6 @@ function getRandomCharacters(count: number): string {
 
 const wordList: string[] = loadWordsFromFile('LearningWithErrorsEncryption/words2000.txt');
 
-export default async function generatePassword(){
-  const password: string = generateRandomPassword(wordList, 1, 3, 3, 5, 3, 5);
-  return password;
+export default function generatePassword() {
+  return generateRandomPassword(wordList, 1, 3, 3, 5, 3, 5);
 }

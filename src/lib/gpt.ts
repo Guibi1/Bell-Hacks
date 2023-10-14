@@ -43,10 +43,18 @@ async function chatCompletion(user: App.User, messages: Messages, end = false) {
                 getPassword(user, website);
             },
             addPassword: async ({ website }: { website: string }) => {
-                addPassword(user, website, await generatePassword());
+                const password = generatePassword()
+                if (await addPassword(user, website, password)) {
+                    return password
+                }
+                else return null
             },
             modifyPassword: async ({ website }: { website: string }) => {
-                modifyPassword(user, website, await generatePassword());
+                const password = generatePassword()
+                if (await modifyPassword(user, website, password)) {
+                    return password
+                }
+                else return null
             },
             removePassword: async ({ website }: { website: string }) => {
                 removePassword(user, website);
