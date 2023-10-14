@@ -1,5 +1,7 @@
+
+
+from http.server import BaseHTTPRequestHandler
 import random
-from sympy.ntheory.factor_ import totient
 import numpy as np
 import json
 
@@ -55,8 +57,7 @@ def hash_function(word):
     closest_prime_of_smallest = find_closest_prime(sum_smallest, prime_list)
 
 
-    totient_sum = totient(total_sum)
-    key = (closest_prime_of_smallest*closest_prime) + totient_sum*largest_num
+    key = (closest_prime_of_smallest*closest_prime)+largest_num
 
     return key
 
@@ -232,30 +233,10 @@ def decryptPasswordApi(encryptedpassword, secretkeyinput, publickeyinput):
     return password
 
 
+secret_key = ["Voiture","Lover","Piscine","Chien"]
 
-chosen_words = words_to_list('LearningWithErrorsEncryption\words300.txt')
+public_key = [291, 325, 125, 289, 95, 193, 386, 116, 184, 170, 1, 193, 336, 309, 348, 273, 159, 193, 141, 225, 295, 323, 147, 193, 169, 342, 284, 243, 100, 193, 353, 232, 186, 396, 77, 193, 148, 115, 138, 361, 181, 193, 190, 211, 336, 286, 68, 193, 203, 252, 189, 238, 121, 193, 198, 215, 263, 339, 111, 193, 194, 238, 182, 166, 96, 193, 128, 102, 340, 164, 109, 193, 297, 182, 136, 105, 102, 193, 177, 306, 265, 103, 95, 193, 380, 386, 145, 111, 191, 193, 230, 246, 338, 298, 11, 193, 181, 108, 264, 104, 41, 193, 353, 133, 284, 186, 44, 193, 183, 367, 195, 346, 141, 193, 388, 374, 176, 293, 102, 193]
 
-password = "helpme123"
+encrypt =  [149, 114, 22, 3, 59, 152, 88, 147, 67, 182, 125, 188, 45, 97, 10, 54, 15, 108, 146, 112, 57, 75, 28, 13, 69, 192, 130, 133, 74, 11, 6, 36, 145, 44, 13, 45, 160, 0, 175, 68, 14, 93, 14, 82, 16, 174, 131, 108, 103, 42, 52, 42, 86, 85, 155, 49, 52, 187, 71, 134, 112, 41, 127, 166, 83, 100, 166, 12, 110, 181, 75, 105, 136, 40, 150, 157, 152, 144, 20, 91, 158, 90, 108, 192, 63, 0, 139, 136, 130, 164, 36, 110, 190, 168, 2, 67, 172, 14, 79, 130, 83, 55, 157, 159, 9, 79, 101, 17, 89, 157, 13, 32, 186, 172, 179, 89, 115, 185, 39, 92, 30, 116, 159, 144, 148, 33, 46, 116, 177, 174, 70, 154, 185, 114, 150, 116, 54, 74, 131, 95, 66, 73, 84, 185, 39, 186, 161, 9, 14, 102, 11, 9, 40, 149, 35, 177, 61, 115, 167, 34, 87, 79, 26, 90, 47, 16, 179, 75, 113, 63, 52, 55, 15, 172, 120, 158, 157, 104, 65, 2, 112, 122, 1, 160, 101, 62, 41, 115, 1, 191, 102, 175, 96, 184, 86, 121, 60, 116, 50, 112, 84, 48, 150, 104, 48, 105, 114, 1, 18, 151, 8, 114, 3, 112, 140, 176, 3, 23, 101, 172, 173, 26, 9, 174, 103, 164, 71, 87, 4, 19, 77, 65, 2, 133, 74, 3, 18, 162, 22, 109, 31, 85, 52, 5, 32, 109, 9, 22, 186, 84, 51, 14, 37, 188, 99, 118, 22, 164, 89, 36, 23, 153, 175, 125, 141, 152, 137, 159, 99, 133, 66, 129, 149, 87, 4, 6, 130, 50, 27, 173, 54, 145, 187, 123, 92, 3, 122, 116, 55, 149, 172, 100, 17, 154, 102, 26, 92, 117, 11, 13, 78, 15, 158, 110, 65, 139, 120, 0, 118, 112, 74, 26, 23, 73, 60, 16, 141, 168, 160, 133, 32, 111, 38, 192, 148, 88, 172, 49, 171, 173, 31, 31, 9, 93, 124, 83, 30, 43, 174, 91, 181, 174, 74, 89, 147, 26, 52, 187, 136, 53, 53, 39, 191, 111, 187, 154, 122, 110, 59, 181, 89, 74, 66, 84, 103, 157, 16, 170, 79, 27, 145, 124, 180, 109, 162, 1, 142, 150, 10, 152, 151, 175, 86, 162, 37, 118, 110, 26, 5, 1, 26, 134, 179, 182, 144, 188, 159, 61, 88, 32, 11, 48, 36, 110, 62, 35, 188, 137, 50, 96, 70, 158, 119, 14, 50, 99, 43, 36, 19, 57, 134, 130, 90, 49, 119, 128, 150, 80, 42, 178, 111, 157, 52, 68, 83, 61, 131, 181, 103, 154]
 
-secret_key = pick_four_words(chosen_words)
-public_key = publicKeyApiGenerator(secret_key)
-encryptedpassword = encryptPasswordApi(password,public_key)
-decryptedpassword = decryptPasswordApi(encryptedpassword,secret_key,public_key)
-verificationValue = verifySecretKey(secret_key,public_key)
-
-
-print("Verification: \n", verificationValue)
-print("Secret key: \n", secret_key)
-print("Public key: \n",public_key)
-print("Password: \n",password)
-print("Encrypted password: \n",encryptedpassword)
-print("Decrypted password: \n",decryptedpassword)
-
-print(json.dumps({'publickey': public_key}))
-
-print(json.dumps({'secretkey': secret_key}))
-
-print(json.dumps({'encryptedpassword': encryptedpassword}))
-
-print(json.dumps({'decryptedpassword': decryptedpassword}))
-
+print(decryptPasswordApi(encrypt,secret_key,public_key))

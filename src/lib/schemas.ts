@@ -39,11 +39,11 @@ export const usersRelations = relations(users, ({ many }) => ({
 }));
 
 export const passwordsRelations = relations(passwords, ({ one }) => ({
-    userId: one(users, { fields: [passwords.userId], references: [users.id] }),
+    user: one(users, { fields: [passwords.userId], references: [users.id] }),
 }));
 
 export const phonesRelations = relations(phones, ({ one }) => ({
-    userId: one(users, { fields: [phones.userId], references: [users.id] }),
+    user: one(users, { fields: [phones.userId], references: [users.id] }),
 }));
 
 export type User = typeof users.$inferSelect;
