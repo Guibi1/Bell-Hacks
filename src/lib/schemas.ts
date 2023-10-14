@@ -1,5 +1,5 @@
 import { relations } from "drizzle-orm";
-import { mysqlTable, serial, text, uniqueIndex, varchar } from "drizzle-orm/mysql-core";
+import { index, mysqlTable, serial, text, varchar } from "drizzle-orm/mysql-core";
 
 export const users = mysqlTable("users", {
     id: varchar("id", { length: 24 }).primaryKey(),
@@ -15,7 +15,7 @@ export const passwords = mysqlTable(
         website: varchar("website", { length: 512 }).notNull(),
     },
     (entry) => ({
-        userIndex: uniqueIndex("user_idx").on(entry.userId),
+        userIndex: index("user_idx").on(entry.userId),
     })
 );
 
@@ -27,8 +27,8 @@ export const phones = mysqlTable(
         number: varchar("number", { length: 64 }).notNull(),
     },
     (entry) => ({
-        userIndex: uniqueIndex("user_idx").on(entry.userId),
-        numberIndex: uniqueIndex("numberx").on(entry.number),
+        userIndex: index("user_idx").on(entry.userId),
+        numberIndex: index("numberx").on(entry.number),
     })
 );
 
