@@ -237,13 +237,13 @@ class handler(BaseHTTPRequestHandler):
     def do_POST(self):
         content_length = int(self.headers['Content-Length'])
         post_data = self.rfile.read(content_length)
-        received_data = json.loads(post_data.decode('utf-8'))
+        received_data = json.loads(post_data.decode('ascii'))
         array = received_data.get("secretkey")
-        key = publicKeyApiGenerator(array)
+        key = hash_function(array)
         keyjson = json.dumps({'publickey': key})
-        print(key)
+
 
         self.send_response(200)
-        self.send_header('Content-type', 'plain/text')
+        self.send_header('Content-type', 'application/json')
         self.end_headers()
-        self.wfile.write(key[0].encode('utf-8'))
+        self.wfile.write(keyjson.encode('ascii'))
