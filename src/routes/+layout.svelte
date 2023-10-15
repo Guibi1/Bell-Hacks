@@ -3,6 +3,7 @@
     import {
         AppBar,
         AppShell,
+        LightSwitch,
         Modal,
         getModalStore,
         initializeStores,
@@ -13,14 +14,11 @@
     initializeStores();
     const modalStore = getModalStore();
 
-    export let data;
-
-    function popUpForm() {
+    function openConnectModal() {
         modalStore.trigger({
             type: "component",
             component: {
                 ref: ConnectionFormModal,
-                props: { data: data.form },
             },
         });
     }
@@ -33,17 +31,18 @@
             <svelte:fragment slot="lead">
                 <img class="h-20" src={logoTitle} alt="logo" />
             </svelte:fragment>
-          
 
             <h1 class="h1">PhoneBase</h1>
             <h2 class="h4">Quantum-Secured Password Manager</h2>
 
             <svelte:fragment slot="trail">
-                <a class="" href="/fr">
-                    Fr
-                </a>
+                <a class="" href="/fr"> Fr </a>
 
-                <button class="variant-filled-primary btn" on:click={popUpForm}> Sign in </button>
+                <LightSwitch />
+
+                <button class="variant-filled-primary btn" on:click={openConnectModal}>
+                    Sign in
+                </button>
             </svelte:fragment>
         </AppBar>
     </svelte:fragment>

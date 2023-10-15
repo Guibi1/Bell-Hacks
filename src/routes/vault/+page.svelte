@@ -36,8 +36,7 @@
     }
 </script>
 
-You made it!
-<main class="2xl:1/2 card mx-auto w-11/12 xl:w-8/12 2xl:w-1/2">
+<main class="2xl:1/2 card mx-auto my-8 w-11/12 xl:w-8/12 2xl:w-1/2">
     <Accordion autocollapse>
         {#each data.passwords as password}
             <AccordionItem>
