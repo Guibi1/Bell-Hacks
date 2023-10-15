@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { goto } from "$app/navigation";
+    import { goto, invalidateAll } from "$app/navigation";
     import { page } from "$app/stores";
     import { getModalStore } from "@skeletonlabs/skeleton";
     import { api } from "sveltekit-typesafe-api";
@@ -21,6 +21,7 @@
         });
         const json = await res.json();
         if (json.success) {
+            invalidateAll();
             goto(`/${$page.data.lang}/vault`);
         } else if (json.invalidPassword) {
             message = "Invalid password";
@@ -41,7 +42,10 @@
                 : "Put your secret keywords in the boxes below"}
         </article>
 
-        <form class="modal-form space-y-4 border border-surface-500 p-4 rounded-container-token">
+        <form
+            class="modal-form space-y-4 border border-surface-500 p-4 rounded-container-token"
+            on:submit={submit}
+        >
             {#if message}
                 <span class="text-error-400-500-token">{message}</span>
             {/if}
@@ -50,7 +54,13 @@
                 <span>
                     {$page.url.pathname.startsWith("/fr") ? "Numéro de téléphone" : "Phone number"}
                 </span>
-                <input class="input" type="tel" bind:value={phone} placeholder="Enter phone..." />
+                <input
+                    class="input"
+                    type="tel"
+                    bind:value={phone}
+                    placeholder="Enter phone..."
+                    required={true}
+                />
             </label>
 
             <label class="label">
@@ -58,10 +68,10 @@
                     {$page.url.pathname.startsWith("/fr") ? "Mots secrets" : "Secret keywords"}
                 </span>
                 <div class="flex">
-                    <input class="input" type="text" bind:value={key1} />
-                    <input class="input" type="text" bind:value={key2} />
-                    <input class="input" type="text" bind:value={key3} />
-                    <input class="input" type="text" bind:value={key4} />
+                    <input class="input" type="text" bind:value={key1} required={true} />
+                    <input class="input" type="text" bind:value={key2} required={true} />
+                    <input class="input" type="text" bind:value={key3} required={true} />
+                    <input class="input" type="text" bind:value={key4} required={true} />
                 </div>
             </label>
         </form>

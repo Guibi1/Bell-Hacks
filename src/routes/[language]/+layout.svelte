@@ -1,4 +1,6 @@
 <script lang="ts">
+    import { goto, invalidateAll } from "$app/navigation";
+    import { page } from "$app/stores";
     import logoTitle from "$assets/PhoneBase-logo.png";
     import {
         AppBar,
@@ -8,19 +10,22 @@
         getModalStore,
         initializeStores,
     } from "@skeletonlabs/skeleton";
+    import { api } from "sveltekit-typesafe-api";
     import "../../app.postcss";
     import ConnectionFormModal from "./ConnectionFormModal.svelte";
-    import { page } from "$app/stores";
-    import { api } from "sveltekit-typesafe-api";
-    import { invalidate } from "$app/navigation";
 
     initializeStores();
     const modalStore = getModalStore();
 
     async function openConnectModal() {
         if ($page.data.isLoggedIn) {
-            await api.POST("/logout", {});
-            invalidate("app:auth");
+            if ($page.route.id?.endsWith("vault")) {
+                await api.POST("/logout", {});
+                invalidateAll();
+                goto(`/${$page.data.lang}`);
+            } else {
+                goto(`/${$page.data.lang}/vault`);
+            }
         } else {
             modalStore.trigger({
                 type: "component",
@@ -55,7 +60,7 @@
                     {:else if $page.route.id?.endsWith("vault")}
                         {$page.data.isFr ? "Se déconnecter" : "Log out"}
                     {:else}
-                        {$page.data.isFr ? "Se connecter" : "Sign in"}
+                        {$page.data.isFr ? "Coffre-fort" : "Vault"}
                     {/if}
                 </button>
 

@@ -20,7 +20,7 @@
             {$page.data.isFr ? "À propos" : "About"}
         </h3>
 
-        <p class="h5 p-4">
+        <p class="h5 p-0 text-justify md:p-4">
             {$page.data.isFr
                 ? `Nous sommes un gestionnaire de mots de passe unique accessible depuis votre téléphone ! Vos mots de passe sont cryptés à l'aide de notre algorithme de cryptage Learning With Error, ce qui le rend sûr sur le plan quantique et basé sur une confiance à 0 %. Notre service client basé sur l'IA peut vous aider pour toute question relative aux mots de passe sans aucun problème !`
                 : `We are a unique password manager accessible through your phone! Your passwords are encrypted using our Learning With Error encryption algorithm, making it quantum-safe and 0% trust-based. Our AI-based customer service can assist you with any password-related questions without any issues at all!`}
