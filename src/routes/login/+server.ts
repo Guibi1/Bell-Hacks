@@ -16,8 +16,12 @@ export async function POST({ request, cookies, fetch }) {
     }
 
     if (await verifyPrivateKey(fetch, data.privateKey, user.publicKey)) {
-        cookies.set("userId", user.id);
-        cookies.set("privateKey", JSON.stringify(data.privateKey));
+        cookies.set("userId", user.id, { path: "/", sameSite: true, secure: true });
+        cookies.set("privateKey", JSON.stringify(data.privateKey), {
+            path: "",
+            sameSite: true,
+            secure: true,
+        });
         return json({ success: true });
     }
 

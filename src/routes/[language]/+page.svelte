@@ -1,5 +1,9 @@
 <script lang="ts">
     import { page } from "$app/stores";
+    import samuel from "$assets/samuel.png";
+    import gabriel from "$assets/gabriel.png";
+    import olivier from "$assets/olivier.png";
+    import laurent from "$assets/laurent.png";
 </script>
 
 <main class="flex flex-col p-4">
@@ -11,27 +15,77 @@
         <span class="text-5xl">(438) 812-3367</span>
     </a>
 
-    <div class="div m-10">
+    <section class="m-10">
         <h3 class="h3 text-center underline">
             {$page.data.isFr ? "À propos" : "About"}
         </h3>
 
         <p class="h5 p-4">
             {$page.data.isFr
-                ? `Vos mots de passe sont incryptés avec notre algothime d'incryption Learning With Error;
-            donnant à ceux-ci une sécurité quantique et 0% basée sur la confiance. De plus, notre
-            service à la clientèle basée sur l'IA répondra à toutes vos questions sans soucis!`
-                : `We are a unique password manager accessible through your phone! Your passwords are
-            encrypted using our Learning With Error encryption algorithm; making it quantum-safe and
-            0% trust-based and our AI-based customer service can help you with any password-related
-            questions with no issues at all!`}
+                ? `Nous sommes un gestionnaire de mots de passe unique accessible depuis votre téléphone ! Vos mots de passe sont cryptés à l'aide de notre algorithme de cryptage Learning With Error, ce qui le rend sûr sur le plan quantique et basé sur une confiance à 0 %. Notre service client basé sur l'IA peut vous aider pour toute question relative aux mots de passe sans aucun problème !`
+                : `We are a unique password manager accessible through your phone! Your passwords are encrypted using our Learning With Error encryption algorithm, making it quantum-safe and 0% trust-based. Our AI-based customer service can assist you with any password-related questions without any issues at all!`}
         </p>
-    </div>
+    </section>
 
-    <div class="grid grid-cols-4 self-center">
-        <img class="h-40" src="src/assets/PhoneBase-logo.png" alt="1" />
-        <img class="h-40" src="src/assets/PhoneBase-logo.png" alt="2" />
-        <img class="h-40" src="src/assets/PhoneBase-logo.png" alt="3" />
-        <img class="h-40" src="src/assets/PhoneBase-logo.png" alt="4" />
-    </div>
+    <section class="flex flex-col gap-8 pb-4">
+        <h3 class="h3 text-center underline">
+            {$page.data.isFr ? "L'équipe" : "The team"}
+        </h3>
+
+        <div
+            class="grid grid-cols-2 gap-8 self-center px-8 md:w-5/6 lg:w-3/5 xl:w-3/4 xl:grid-cols-4 2xl:w-8/12"
+        >
+            <a
+                class="card variant-filled-primary card-hover overflow-hidden text-center"
+                href="https://www.instagram.com/lyddeon/"
+            >
+                <img class="w-full" src={samuel} alt="Samuel" />
+
+                <div class="p-4">
+                    <span class="text-3xl">Samuel</span>
+
+                    <p class="p text-xl">Creative lead</p>
+                </div>
+            </a>
+
+            <a
+                class="card variant-filled-primary card-hover overflow-hidden text-center"
+                href="https://www.linkedin.com/in/gabriel-mikus-728a2326b/"
+            >
+                <img class="w-full" src={gabriel} alt="Gabriel" />
+
+                <div class="p-4">
+                    <span class="text-3xl">Gabriel</span>
+
+                    <p class="p text-xl">Prompt engineer</p>
+                </div>
+            </a>
+
+            <a
+                class="card variant-filled-primary card-hover overflow-hidden text-center"
+                href="https://www.linkedin.com/in/olivier-saint-vincent/"
+            >
+                <img class="w-full" src={olivier} alt="Olivier" />
+
+                <div class="p-4">
+                    <span class="text-3xl">Olivier</span>
+
+                    <p class="p text-xl">Number theorist</p>
+                </div>
+            </a>
+
+            <a
+                class="card variant-filled-primary card-hover overflow-hidden text-center"
+                href="https://www.linkedin.com/in/guibi1/"
+            >
+                <img class="w-full" src={laurent} alt="Laurent" />
+
+                <div class="flex flex-col p-4">
+                    <span class="text-3xl">Laurent</span>
+
+                    <p class="p text-xl">Full-Stack dev</p>
+                </div>
+            </a>
+        </div>
+    </section>
 </main>

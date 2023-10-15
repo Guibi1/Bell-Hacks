@@ -36,7 +36,7 @@
 
 <AppShell>
     <svelte:fragment slot="header">
-        <AppBar background="bg-surface-500">
+        <AppBar background="bg-secondary-500-400-token">
             <svelte:fragment slot="lead">
                 <img class="h-20" src={logoTitle} alt="logo" />
             </svelte:fragment>
@@ -49,8 +49,10 @@
             </h2>
 
             <svelte:fragment slot="trail">
-                <button class="variant-filled-primary btn" on:click={openConnectModal}>
-                    {#if $page.data.isLoggedIn}
+                <button class="variant-filled-tertiary btn" on:click={openConnectModal}>
+                    {#if !$page.data.isLoggedIn}
+                        {$page.data.isFr ? "Se connecter" : "Sign in"}
+                    {:else if $page.route.id?.endsWith("vault")}
                         {$page.data.isFr ? "Se déconnecter" : "Log out"}
                     {:else}
                         {$page.data.isFr ? "Se connecter" : "Sign in"}
@@ -60,7 +62,7 @@
                 <LightSwitch />
 
                 <a
-                    class="variant-filled-primary btn btn-icon"
+                    class="variant-filled-tertiary btn btn-icon"
                     href={$page.data.isFr
                         ? "/en" + $page.url.pathname.substring(3)
                         : "/fr" + $page.url.pathname.substring(3)}

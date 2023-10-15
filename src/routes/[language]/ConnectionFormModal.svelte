@@ -21,7 +21,7 @@
         });
         const json = await res.json();
         if (json.success) {
-            goto("/vault");
+            goto(`/${$page.data.lang}/vault`);
         } else if (json.invalidPassword) {
             message = "Invalid password";
         } else {
