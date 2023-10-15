@@ -1,5 +1,6 @@
 <script lang="ts">
     import { goto } from "$app/navigation";
+    import { page } from "$app/stores";
     import { getModalStore } from "@skeletonlabs/skeleton";
     import { api } from "sveltekit-typesafe-api";
     const modalStore = getModalStore();
@@ -31,8 +32,15 @@
 
 {#if $modalStore[0]}
     <div class="modal-example-form card w-modal space-y-4 p-4 shadow-xl">
-        <header class="text-2xl font-bold">Sign In</header>
-        <article>Put your secret keywords in the boxes below</article>
+        <header class="text-2xl font-bold">
+            {$page.url.pathname.startsWith("/fr") ? "Se connecter" : "Sign in"}
+        </header>
+        <article>
+            {$page.url.pathname.startsWith("/fr") ? 
+            "Entrez vos mots secrets dans les boîtes ci-dessous" : 
+            "Put your secret keywords in the boxes below"}
+            
+        </article>
 
         <form class="modal-form space-y-4 border border-surface-500 p-4 rounded-container-token">
             {#if message}
@@ -40,12 +48,16 @@
             {/if}
 
             <label class="label">
-                <span>Phone Number</span>
+                <span>
+                    {$page.url.pathname.startsWith("/fr") ? "Numéro de téléphone" : "Phone number"}
+                </span>
                 <input class="input" type="tel" bind:value={phone} placeholder="Enter phone..." />
             </label>
 
             <label class="label">
-                <span>Private key</span>
+                <span> 
+                    {$page.url.pathname.startsWith("/fr") ? "Mots secrets" : "Secret keywords"}
+                </span>
                 <div class="flex">
                     <input class="input" type="text" bind:value={key1} />
                     <input class="input" type="text" bind:value={key2} />
@@ -57,9 +69,11 @@
 
         <footer class="modal-footer {parent.regionFooter}">
             <button class="btn {parent.buttonNeutral}" on:click={parent.onClose}>
-                {parent.buttonTextCancel}
+                {$page.url.pathname.startsWith("/fr") ? "Annuler" : "Cancel"}
             </button>
-            <button class="btn {parent.buttonPositive}" on:click={submit}> Submit Form </button>
+            <button class="btn {parent.buttonPositive}" on:click={submit}> 
+                {$page.url.pathname.startsWith("/fr") ? "Se connecter" : "Sign in"}
+             </button>
         </footer>
     </div>
 {/if}

@@ -9,6 +9,7 @@
     } from "@skeletonlabs/skeleton";
     import "../app.postcss";
     import ConnectionFormModal from "./ConnectionFormModal.svelte";
+    import { page } from "$app/stores";
 
     initializeStores();
     const modalStore = getModalStore();
@@ -33,17 +34,17 @@
             <svelte:fragment slot="lead">
                 <img class="h-20" src={logoTitle} alt="logo" />
             </svelte:fragment>
-          
 
             <h1 class="h1">PhoneBase</h1>
             <h2 class="h4">Quantum-Secured Password Manager</h2>
 
             <svelte:fragment slot="trail">
-                <a class="" href="/fr">
-                    Fr
+                <a class="" href={$page.url.pathname.startsWith("/fr") ? "/" : "/fr"}>
+                    {$page.url.pathname.startsWith("/fr") ? "En" : "Fr"}
                 </a>
 
-                <button class="variant-filled-primary btn" on:click={popUpForm}> Sign in </button>
+                <button class="variant-filled-primary btn" on:click={popUpForm}> 
+                    {$page.url.pathname.startsWith("/fr") ? "Se connecter" : "Sign in"}</button>
             </svelte:fragment>
         </AppBar>
     </svelte:fragment>
