@@ -1,6 +1,6 @@
 import { verifyPrivateKey } from "$lib/crypto";
 import { findUser } from "$lib/database";
-import { error, json, redirect } from "@sveltejs/kit";
+import { error, json } from "@sveltejs/kit";
 import { validate } from "sveltekit-typesafe-api/server";
 import { z } from "zod";
 
@@ -18,8 +18,8 @@ export async function POST({ request, cookies, fetch }) {
     if (await verifyPrivateKey(fetch, data.privateKey, user.publicKey)) {
         cookies.set("userId", user.id);
         cookies.set("privateKey", JSON.stringify(data.privateKey));
-        throw redirect(302, "/vault");
+        return json({ success: true });
     }
 
-    return json({ invalidPassword: true });
+    return json({ success: false, invalidPassword: true });
 }

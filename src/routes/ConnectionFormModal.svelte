@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { goto } from "$app/navigation";
     import { getModalStore } from "@skeletonlabs/skeleton";
     import { api } from "sveltekit-typesafe-api";
     const modalStore = getModalStore();
@@ -18,7 +19,9 @@
             body: { phone, privateKey: [key1, key2, key3, key4] },
         });
         const json = await res.json();
-        if (json.invalidPassword) {
+        if (json.success) {
+            goto("/vault");
+        } else if (json.invalidPassword) {
             message = "Invalid password";
         } else {
             message = "";
