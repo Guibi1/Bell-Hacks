@@ -36,11 +36,11 @@ async function chatCompletion(
     end = false,
     password?: string
 ) {
-    // if (password) {
-    //     const content = `Your password is ${password}. Is there anything else you want today?`;
-    //     messages.push({ role: "assistant", content });
-    //     return { content, messages, end };
-    // }
+    if (password) {
+        const content = `Your password is ${password}. Is there anything else you want today?`;
+        messages.push({ role: "assistant", content });
+        return { content, messages, end };
+    }
 
     try {
         const response = await openai.chat.completions.create({
@@ -91,7 +91,6 @@ async function chatCompletion(
         const result = await functionsList[name](JSON.parse(args));
         messages.push({ role: "function", content: JSON.stringify(result), name: name });
 
-        console.log("🚀 ~ file: gpt.ts:94 ~ password:", password);
         return chatCompletion(f, user, messages, end, password);
     } catch (error) {
         console.error("An error occured:", error);
