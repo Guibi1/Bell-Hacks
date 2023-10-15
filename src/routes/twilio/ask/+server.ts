@@ -12,7 +12,7 @@ export async function GET({ setHeaders }) {
         speechTimeout: "auto",
     });
 
-    response.say("We didn't receive any input. Goodbye!");
+    response.say("You didn't say anything. Thank you for calling, goodbye!");
     setHeaders({ "Content-Type": "text/xml" });
     return text(response.toString());
 }

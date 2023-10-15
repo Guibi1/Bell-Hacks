@@ -13,6 +13,14 @@ export async function GET({ locals, url, setHeaders, fetch }) {
 
     const response = new twilio.twiml.VoiceResponse();
 
+    if (!speechResult) {
+        response.say("I'm sorry, but I didn't hear what you just said. Could you repeat");
+        response.redirect({ method: "GET" }, "/twilio/ask");
+
+        setHeaders({ "Content-Type": "text/xml" });
+        return text(response.toString());
+    }
+
     const answer = await askGPT(
         fetch,
         { ...user, privateKey },
