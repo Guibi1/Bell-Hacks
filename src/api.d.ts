@@ -15,13 +15,14 @@ type ProjectAPI = {
         "/twilio/status": never;
     };
     POST: {
+        "/[language]/vault": { body: { id: number }; routeParams: { language: string } };
         "/login": { body: { phone: string; privateKey: string[] } };
-        "/vault": { body: { id: number } };
+        "/logout": never;
     };
     PUT: {
-        "/vault": { body: { id: number; password: string } };
+        "/[language]/vault": { body: { id: number; password: string }; routeParams: { language: string } };
     };
     DELETE: {
-        "/vault": { body: { id: number } };
+        "/[language]/vault": { body: { id: number }; routeParams: { language: string } };
     };
 };

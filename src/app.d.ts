@@ -10,7 +10,11 @@ declare global {
             callId: string | null;
             userId: string | null;
         }
-        // interface PageData {}
+        interface PageData {
+            isFr: boolean;
+            lang: string;
+            isLoggedIn: boolean;
+        }
         // interface Platform {}
     }
 }

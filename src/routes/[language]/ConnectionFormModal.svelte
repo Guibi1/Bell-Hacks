@@ -36,10 +36,9 @@
             {$page.url.pathname.startsWith("/fr") ? "Se connecter" : "Sign in"}
         </header>
         <article>
-            {$page.url.pathname.startsWith("/fr") ? 
-            "Entrez vos mots secrets dans les boîtes ci-dessous" : 
-            "Put your secret keywords in the boxes below"}
-            
+            {$page.url.pathname.startsWith("/fr")
+                ? "Entrez vos mots secrets dans les boîtes ci-dessous"
+                : "Put your secret keywords in the boxes below"}
         </article>
 
         <form class="modal-form space-y-4 border border-surface-500 p-4 rounded-container-token">
@@ -55,7 +54,7 @@
             </label>
 
             <label class="label">
-                <span> 
+                <span>
                     {$page.url.pathname.startsWith("/fr") ? "Mots secrets" : "Secret keywords"}
                 </span>
                 <div class="flex">
@@ -71,9 +70,9 @@
             <button class="btn {parent.buttonNeutral}" on:click={parent.onClose}>
                 {$page.url.pathname.startsWith("/fr") ? "Annuler" : "Cancel"}
             </button>
-            <button class="btn {parent.buttonPositive}" on:click={submit}> 
+            <button class="btn {parent.buttonPositive}" on:click={submit}>
                 {$page.url.pathname.startsWith("/fr") ? "Se connecter" : "Sign in"}
-             </button>
+            </button>
         </footer>
     </div>
 {/if}
