@@ -11,7 +11,7 @@
     </a>
     <div class="div m-10">
         <h3 class="h3 text-center">
-            <u>About us</u>
+            <u>About</u>
         </h3>
         <h5 class="h5 p-4">
             We are a unique password manager accessible through your phone! Your passwords are
@@ -20,10 +20,10 @@
             questions with no issues at all!
         </h5>
     </div>
-    <div class="div grid-cols-4">
-        <img src="" alt="" />
-        <img src="" alt="" />
-        <img src="" alt="" />
-        <img src="" alt="" />
+    <div class="grid-cols-4 grid self-center">
+        <img class="h-40" src="src/assets/PhoneBase-logo.png" alt="1" />
+        <img class="h-40" src="src/assets/PhoneBase-logo.png" alt="2" />
+        <img class="h-40" src="src/assets/PhoneBase-logo.png" alt="3" />
+        <img class="h-40" src="src/assets/PhoneBase-logo.png" alt="4" />
     </div>
 </main>
