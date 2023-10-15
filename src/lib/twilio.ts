@@ -7,8 +7,8 @@ export function gatherLoginSercretKey(response: twilio.twiml.VoiceResponse) {
         action: "/twilio/login",
         method: "GET",
         speechModel: "experimental_utterances",
-        hints: wordList.join(", "),
         speechTimeout: "auto",
+        hints: wordList.join(", "),
     });
     gather.say("Please tell us your 4 words sercret passkey.");
 

@@ -91,7 +91,6 @@ async function chatCompletion(
         const result = await functionsList[name](JSON.parse(args));
         messages.push({ role: "function", content: JSON.stringify(result), name: name });
 
-        console.log("🚀 ~ file: gpt.ts:94 ~ password:", password);
         return chatCompletion(f, user, messages, end, password);
     } catch (error) {
         console.error("An error occured:", error);

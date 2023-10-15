@@ -8,6 +8,8 @@ export async function GET({ setHeaders }) {
         input: ["speech"],
         action: "/twilio/answer",
         method: "GET",
+        speechModel: "experimental_conversations",
+        speechTimeout: "auto",
     });
 
     response.say("We didn't receive any input. Goodbye!");
