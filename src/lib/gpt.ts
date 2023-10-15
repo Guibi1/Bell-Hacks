@@ -36,11 +36,11 @@ async function chatCompletion(
     end = false,
     password?: string
 ) {
-    if (password) {
-        const content = `Your password is ${password}. Is there anything else you want today?`;
-        messages.push({ role: "assistant", content });
-        return { content, messages, end };
-    }
+    // if (password) {
+    //     const content = `Your password is ${password}. Is there anything else you want today?`;
+    //     messages.push({ role: "assistant", content });
+    //     return { content, messages, end };
+    // }
 
     try {
         const response = await openai.chat.completions.create({
