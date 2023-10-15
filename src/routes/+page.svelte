@@ -14,10 +14,7 @@
             <u>About</u>
         </h3>
         <h5 class="h5 p-4">
-            We are a unique password manager accessible through your phone! Your passwords are
-            encrypted using our Learning With Error encryption algorithm; making it quantum-safe and
-            0% trust-based and our AI-based customer service can help you with any password-related
-            questions with no issues at all!
+            We are a unique password manager accessible through your phone! Your passwords are encrypted using our Learning With Error encryption algorithm, making it quantum-safe and 0% trust-based. Our AI-based customer service can assist you with any password-related questions without any issues at all!
         </h5>
     </div>
     <div class="grid-cols-4 grid self-center">
