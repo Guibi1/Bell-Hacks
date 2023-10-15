@@ -92,7 +92,7 @@ export const myCustomTheme: CustomThemeConfig = {
 		"--color-surface-100": "254 254 251", // #fefefb
 		"--color-surface-200": "254 254 250", // #fefefa
 		"--color-surface-300": "254 253 247", // #fefdf7
-		"--color-surface-400": "253 252 241", // #fdfcf1
+		"--color-surface-400": "156 192 198", // #fdfcf1
 		"--color-surface-500": "173,213,220", // #fcfaeb
 		"--color-surface-600": "227 225 212", // #e3e1d4
 		"--color-surface-700": "189 188 176", // #bdbcb0
