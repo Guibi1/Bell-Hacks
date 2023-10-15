@@ -3,6 +3,7 @@
     import {
         AppBar,
         AppShell,
+        LightSwitch,
         Modal,
         getModalStore,
         initializeStores,
@@ -14,14 +15,11 @@
     initializeStores();
     const modalStore = getModalStore();
 
-    export let data;
-
-    function popUpForm() {
+    function openConnectModal() {
         modalStore.trigger({
             type: "component",
             component: {
                 ref: ConnectionFormModal,
-                props: { data: data.form },
             },
         });
     }
@@ -39,12 +37,18 @@
             <h2 class="h4">Quantum-Secured Password Manager</h2>
 
             <svelte:fragment slot="trail">
-                <a class="" href={$page.url.pathname.startsWith("/fr") ? "/" : "/fr"}>
+                <button class="variant-filled-primary btn" on:click={openConnectModal}>
+                    {$page.url.pathname.startsWith("/fr") ? "Se connecter" : "Sign in"}
+                </button>
+
+                <LightSwitch />
+
+                <a
+                    class="variant-filled-primary btn btn-icon"
+                    href={$page.url.pathname.startsWith("/fr") ? "/" : "/fr"}
+                >
                     {$page.url.pathname.startsWith("/fr") ? "En" : "Fr"}
                 </a>
-
-                <button class="variant-filled-primary btn" on:click={popUpForm}> 
-                    {$page.url.pathname.startsWith("/fr") ? "Se connecter" : "Sign in"}</button>
             </svelte:fragment>
         </AppBar>
     </svelte:fragment>

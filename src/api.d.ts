@@ -6,7 +6,6 @@
 
 type ProjectAPI = {
     GET: {
-        "/": never;
         "/twilio": never;
         "/twilio/add-phone": never;
         "/twilio/answer": never;
@@ -17,5 +16,12 @@ type ProjectAPI = {
     };
     POST: {
         "/login": { body: { phone: string; privateKey: string[] } };
+        "/vault": { body: { id: number } };
+    };
+    PUT: {
+        "/vault": { body: { id: number; password: string } };
+    };
+    DELETE: {
+        "/vault": { body: { id: number } };
     };
 };
