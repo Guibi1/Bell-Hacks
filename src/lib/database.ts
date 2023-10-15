@@ -36,7 +36,7 @@ export async function findUserId(phone: string) {
 export async function findUser(phone: string) {
     const result = await db.query.phones.findFirst({
         columns: {},
-        where: (phones) => eq(phones.number, phone),
+        where: (phones) => like(phones.number, `%${phone}`),
         with: { user: true },
     });
 
@@ -118,4 +118,8 @@ export async function addPhoneNumber(oldPhoneNumber: string, newPhoneNumber: str
     } catch {
         return false;
     }
+}
+
+export async function getAllPasswords(user: App.User) {
+    return await db.select().from(schemas.passwords).where(eq(schemas.passwords.userId, user.id));
 }

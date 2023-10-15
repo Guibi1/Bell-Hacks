@@ -10,6 +10,8 @@ export const handleCaller: Handle = async ({ event, resolve }) => {
             event.locals.callId = callId;
             event.locals.userId = await getCallUserId(callId);
         }
+    } else {
+        event.locals.userId = event.cookies.get("userId") ?? null;
     }
 
     return resolve(event);
