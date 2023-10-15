@@ -1,10 +1,29 @@
 <script lang="ts">
-    import { AppShell, AppBar } from "@skeletonlabs/skeleton";
+    import { AppShell, AppBar,getModalStore, initializeStores, Modal  } from "@skeletonlabs/skeleton";
     import logoTitle from "$assets/PhoneBase-logo.png";
+    import MyCustomComponent from "./connectionForm.svelte";
+    
+
+    initializeStores();
+    const modalStore = getModalStore();
+
+    const formData = {
+        fourKeywords: "Jane Doe",
+        tel: "214-555-1234",
+        email: "jdoe@email.com",
+    };
+
+    function popUpForm() {
+        modalStore.trigger({
+            type: "component",
+            component: { ref: MyCustomComponent },
+        });
+    }
 
     import "../app.postcss";
 </script>
 
+<Modal></Modal>
 <AppShell>
     <svelte:fragment slot="header">
         <AppBar background="bg-surface-500">
@@ -16,10 +35,13 @@
             <h2 class="h4">Quantum-Secured Password Manager</h2>
 
             <svelte:fragment slot="trail">
-                <a  class="btn variant-filled-primary" >Sign in</a> 
-            </svelte:fragment>
+                <button class="variant-filled-primary btn" on:click={() => popUpForm()}
+                    >Sign in<button> </button></button
+                ></svelte:fragment
+            >
         </AppBar>
     </svelte:fragment>
+    
 
     <slot />
 </AppShell>
