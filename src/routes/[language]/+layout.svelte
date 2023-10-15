@@ -43,17 +43,20 @@
     <svelte:fragment slot="header">
         <AppBar background="bg-secondary-500-400-token">
             <svelte:fragment slot="lead">
-                <img class="h-20" src={logoTitle} alt="logo" />
+                <img class="hidden h-20 object-contain md:block" src={logoTitle} alt="logo" />
             </svelte:fragment>
 
             <h1 class="h1">PhoneBase</h1>
-            <h2 class="h4">
+            <h2 class="h4 hidden md:block">
                 {$page.data.isFr
                     ? "Gestionnaire de mot de passe Quantique"
                     : "Quantum-Secured Password Manager"}
             </h2>
 
-            <svelte:fragment slot="trail">
+            <div
+                class="flex flex-col-reverse items-center justify-end gap-4 md:flex-row"
+                slot="trail"
+            >
                 <button class="variant-filled-tertiary btn" on:click={openConnectModal}>
                     {#if !$page.data.isLoggedIn}
                         {$page.data.isFr ? "Se connecter" : "Sign in"}
@@ -74,7 +77,7 @@
                 >
                     {$page.data.isFr ? "En" : "Fr"}
                 </a>
-            </svelte:fragment>
+            </div>
         </AppBar>
     </svelte:fragment>
 

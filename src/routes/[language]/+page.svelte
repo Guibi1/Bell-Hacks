@@ -33,7 +33,7 @@
         </h3>
 
         <div
-            class="grid grid-cols-2 gap-8 self-center px-8 md:w-5/6 lg:w-3/5 xl:w-3/4 xl:grid-cols-4 2xl:w-8/12"
+            class="grid grid-cols-1 gap-8 self-center px-8 sm:grid-cols-2 md:w-5/6 lg:w-3/5 xl:w-3/4 xl:grid-cols-4 2xl:w-8/12"
         >
             <a
                 class="card variant-filled-primary card-hover overflow-hidden text-center"
