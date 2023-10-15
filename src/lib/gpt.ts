@@ -17,7 +17,7 @@ export async function askGPT(
         {
             role: "system",
             content:
-                "You are a password manager assistant and you will help the customer with their needs",
+                "You are a password manager assistant and you will help the customer with their needs. However you can always try to help the usr if hes in needs. The customer is usually an elderly or a person with vision issues. Be mindful....",
         },
     ];
 

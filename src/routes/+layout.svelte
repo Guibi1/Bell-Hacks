@@ -14,6 +14,10 @@
 
             <h1 class="h1">PhoneBase</h1>
             <h2 class="h4">Quantum-Secured Password Manager</h2>
+
+            <svelte:fragment slot="trail">
+                <a  class="btn variant-filled-primary" >Sign in</a> 
+            </svelte:fragment>
         </AppBar>
     </svelte:fragment>
 
