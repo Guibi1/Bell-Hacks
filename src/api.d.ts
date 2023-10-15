@@ -6,7 +6,6 @@
 
 type ProjectAPI = {
     GET: {
-        "/[language]/vault": { routeParams: { language: string }; searchParams: { id: number; } };
         "/twilio": never;
         "/twilio/add-phone": never;
         "/twilio/answer": never;
@@ -24,6 +23,9 @@ type ProjectAPI = {
         "/[language]/vault": { body: { id: number; password: string }; routeParams: { language: string } };
     };
     DELETE: {
+        "/[language]/vault": { body: { id: number }; routeParams: { language: string } };
+    };
+    OPTIONS: {
         "/[language]/vault": { body: { id: number }; routeParams: { language: string } };
     };
 };

@@ -28,8 +28,8 @@
     async function show(password: Password) {
         clearPassword[password.id] = (
             await api
-                .GET("/[language]/vault", {
-                    searchParams: { id: password.id },
+                .OPTIONS("/[language]/vault", {
+                    body: { id: password.id },
                     routeParams: { language: $page.data.lang },
                 })
                 .then((res) => res.json())

@@ -10,14 +10,14 @@ import { error, json } from "@sveltejs/kit";
 import { validate } from "sveltekit-typesafe-api/server";
 import { z } from "zod";
 
-export async function GET({ request, locals, cookies, fetch }) {
-    const { data } = await validate(request, { searchParams: z.object({ id: z.coerce.number() }) });
+export async function OPTIONS({ request, locals, cookies, fetch }) {
+    const { data } = await validate(request, { id: z.number() });
 
     const user = await getUser(locals.userId);
     const privateKey = JSON.parse(cookies.get("privateKey") ?? "null");
     if (!user || !privateKey) throw error(401);
 
-    const encrypted = await getPasswordById(user, data.searchParams.id);
+    const encrypted = await getPasswordById(user, data.id);
     if (encrypted) {
         const password = await decrypt(fetch, privateKey, user.publicKey, encrypted);
         return json({ success: true, password });
