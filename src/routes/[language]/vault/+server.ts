@@ -26,13 +26,14 @@ export async function OPTIONS({ request, locals, cookies, fetch }) {
     return json({ success: true });
 }
 
-export async function POST({ request, locals }) {
+export async function POST({ request, locals, fetch}) {
     const { data } = await validate(request, { website: z.string(), password: z.string() });
 
     const user = await getUser(locals.userId);
     if (!user) throw error(401);
 
-    return json({ success: await addPassword(user, data.website, data.password) });
+    const encrypted = await encrypt(fetch, user.publicKey, data.password)
+    return json({ success: await addPassword(user, data.website, encrypted) });
 }
 
 export async function PUT({ request, locals, fetch }) {
