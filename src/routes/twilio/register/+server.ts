@@ -21,12 +21,25 @@ export async function GET({ locals, url, setHeaders, fetch }) {
         "Make sure to remember the four words, as this is the only time that Phone Base will provide them to you."
     );
     response.pause({ length: 2 });
+    response.say(
+        "You will here it in 3"
+    );
+    response.pause({ length: 1 });
+    response.say(
+        "2"
+    );
+    response.pause({ length: 1 });
+    response.say(
+        "1"
+    );
+    response.pause({ length: 2 });
 
     for (let i = 0; i < 2; i++) {
         for (let j = 0; j < privateKey.length; j++) {
             response.say(privateKey[j]);
             response.pause({ length: 1 });
         }
+        response.pause({ length: 2 });
     }
 
     response.say("You will now be redirected to the main menu. Thank you for using Phone Base!");
